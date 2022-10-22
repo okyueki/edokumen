@@ -73,7 +73,7 @@
                     </div>
                   </div>
                 </div>
-                <p>Hi! I'm Amiah the Senior UI Designer at NobleUI. We hope you enjoy the design and quality of Social.</p>
+                <p>Hi Saya Pegawai RS Aisyiyah Siti Fatimah</p>
                 
                 <div class="mt-3">
                   <label class="tx-11 fw-bolder mb-0 text-uppercase">Joined:</label>
