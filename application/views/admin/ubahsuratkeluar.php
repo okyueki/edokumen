@@ -2,8 +2,7 @@
 
 				<nav class="page-breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?php echo base_url()?>dashboard">eDokumen</a></li>
-						<li class="breadcrumb-item"><a href="<?php echo base_url()?>suratkeluar">eDokumen</a></li>
+						<li class="breadcrumb-item"><a href="#">eDokumen</a></li>
 						<li class="breadcrumb-item active" aria-current="page"><?php echo $judul;?></li>
 					</ol>
 				</nav>
@@ -13,20 +12,24 @@
             <div class="card">
               <div class="card-body">
                 <h6 class="card-title mb-3"><?php echo $judul;?></h6>
-                 <?php echo form_open_multipart('suratkeluar/tambahsuratkeluar'); ?>
+                 <?php echo form_open_multipart('suratkeluar/ubahsuratkeluar/'.$surat['id_surat']); ?>
 				 <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Nomor Surat</label>
-						<input type="text" class="form-control" name="nomor_surat" id="exampleInputUsername1" autocomplete="off" placeholder="Nomor Surat">
+						<input type="text" class="form-control" name="nomor_surat" value="<?php echo $surat['nomor_surat'];?>" id="exampleInputUsername1" autocomplete="off" placeholder="Nomor Surat">
                          <small class="form-text text-danger"><?php echo form_error('nomor_surat');?></small>
                     </div>
                     <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Judul Surat</label>
-						<input type="text" class="form-control" name="judul_surat" id="exampleInputUsername1" autocomplete="off" placeholder="Judul Surat">
+						<input type="text" class="form-control" name="judul_surat" value="<?php echo $surat['judul_surat'];?>"  id="exampleInputUsername1" autocomplete="off" placeholder="Judul Surat">
                          <small class="form-text text-danger"><?php echo form_error('judul_surat');?></small>
 					</div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
 						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj">
+							<?php
+                                $pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $surat['nik_penerima']])->row_array();
+                            ?>
+                             <option value="<?php echo $pegawaix['nik']?>"><?php echo $pegawaix['nama']?></option>
 							<?php
 								foreach ($pegawai as $p) :
 							?>
@@ -40,7 +43,8 @@
                     </div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">File</label>
-						<input type="file" id="myDropify" name="file"/>
+						<input type="file" id="myDropify" name="file"  data-default-file="<?php echo base_url().'uploads/surat/'.$surat['file']; ?>"/>
+						<input type="hidden" value="<?php echo $surat['file']?>" name="oldfile"/>
                         <small class="form-text text-danger"><?php echo form_error('file');?></small>
                     </div>
                     <button type="submit" class="btn btn-primary me-2">Submit</button>

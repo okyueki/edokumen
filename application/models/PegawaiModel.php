@@ -3,7 +3,7 @@ class PegawaiModel extends CI_model
 {
     public function getAllPegawai()
     {
-        return $this->db2->select('nik,nama')->get('pegawai')->toArray();
+        return $this->db2->select('nik,nama')->get_where('pegawai', ['stts_aktif' =>'AKTIF'])->result_array();
     }
     public function getAllTablePegawai()
     {

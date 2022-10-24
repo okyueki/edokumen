@@ -22,7 +22,7 @@ class SuratKeluar extends CI_Controller
     public function index()
     {
         $data['judul'] = "Data Surat";
-        $data['surat'] = $this->SuratModel->getAllSurat();
+        $data['surat'] = $this->SuratModel->getAllSuratKeluar();
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
         $this->load->view('admin/suratkeluar', $data);
@@ -33,15 +33,14 @@ class SuratKeluar extends CI_Controller
         $data['judul'] = "Tambah Surat Keluar";
         $this->form_validation->set_rules('nomor_surat', 'Nomor Surat', 'required');
         $this->form_validation->set_rules('judul_surat', 'Judul Surat', 'required');
-        $this->form_validation->set_rules('pengirim', 'Pengirim', 'required');
-        $this->form_validation->set_rules('penerima', 'Penerima', '');
+        $this->form_validation->set_rules('nik_pj', 'Dikirim Ke', 'required');
 
         if (empty($_FILES['file']['name'])){
             $this->form_validation->set_rules('file', 'File', 'required');
         }
 
         if ($this->form_validation->run() == false) {
-            $data['surat'] = $this->SuratModel->getAllSurat();
+            $data['surat'] = $this->SuratModel->getAllSuratKeluar();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
@@ -58,43 +57,39 @@ class SuratKeluar extends CI_Controller
             if($this->upload->do_upload('file')){
                 $uploadData = $this->upload->data(); 
                 $filename = $uploadData['file_name']; 
-                $this->SuratModel->tambahSurat($filename);
+                $this->SuratModel->tambahSurat($filename, $kategori='surat');
                 $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
                 redirect('suratkeluar');
             }else{
                  $this->session->set_flashdata('error', 'File kosong/maksimal 10 MB/hanya bisa file PDF saja!');
-                 redirect('suratkeluar');
+                redirect('suratkeluar');
             }
         }
     }
 
-    public function ubahdatadokumen($id)
+    public function ubahsuratkeluar($id)
     {
-        $data['judul'] = "Ubah Data Dokumen";
-        $data['dokumen'] = $this->DokumenModel->getDokumenById($id);
+        $data['judul'] = "Ubah Data Surat";
+        $data['surat'] = $this->SuratModel->getSuratById($id,$kategori='surat');
 
-        $this->form_validation->set_rules('nama_dokumen', 'Nama Dokumen', 'required');
-        $this->form_validation->set_rules('tanggal_mulai', 'Tanggal Mulai', 'required');
-        $this->form_validation->set_rules('tanggal_berakhir', 'Tanggal Berakhir', 'required');
-        $this->form_validation->set_rules('pegawai', 'Pegawai', 'required');
-        $this->form_validation->set_rules('lemari', 'Lemari', 'required');
-        $this->form_validation->set_rules('rak', 'Rak', 'required');
+       $this->form_validation->set_rules('nomor_surat', 'Nomor Surat', 'required');
+        $this->form_validation->set_rules('judul_surat', 'Judul Surat', 'required');
+        $this->form_validation->set_rules('nik_pj', 'Dikirim Ke', 'required');
+
         if (empty($_FILES['file']['name'])){
             $this->form_validation->set_rules('file', 'File', '');
         }
 
         if ($this->form_validation->run() == false) {
-            //$data['dokumen'] = $this->DokumenModel->getAllDokumen();
+            //$data['surat'] = $this->SuratModel->getAllSurat();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
-            $data['rak'] = $this->RakModel->getAllRak();
-            $data['lemari'] = $this->LemariModel->getAllLemari();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
-            $this->load->view('admin/ubahdatadokumen', $data);
+            $this->load->view('admin/ubahsuratkeluar', $data);
            $this->load->view('admin/_partials/footer');
         } else {
             //echo "Berhasil";
-            $config['upload_path']          = './uploads/dokumen/';
+            $config['upload_path']          = './uploads/surat/';
             $config['allowed_types']        = 'pdf';
             $config['max_size']             = 10000;
             $config['file_name']            = $_FILES['file']['name'];
@@ -103,28 +98,28 @@ class SuratKeluar extends CI_Controller
 
             if(empty($_FILES['file'])){
                 $filename = ""; 
-                $this->DokumenModel->ubahDokumen($id,$filename);
+                $this->SuratModel->ubahSurat($id,$filename,$kategori='surat');
                 $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
-                redirect('datadokumen');
+                redirect('suratkeluar');
             }elseif(!empty($_FILES['file'])){
                 $this->upload->do_upload('file');
                 $uploadData = $this->upload->data(); 
                 $filename = $uploadData['file_name'];
-                $this->DokumenModel->ubahDokumen($id,$filename);
+                $this->SuratModel->ubahSurat($id,$filename,$kategori='surat');
                 $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
-                redirect('datadokumen');
+                redirect('suratkeluar');
             }else{
                  $this->session->set_flashdata('error', 'File kosong/maksimal 10 MB/hanya bisa file PDF saja!');
-                 redirect('datadokumen');
+                 redirect('suratkeluar');
             }
         }
     }
-     public function hapusdatadokumen($id)
+     public function hapussuratkeluar($id,$kategori='surat')
     {
-        $dokumenx=$this->db->get_where('dokumen', ['id_dokumen' =>  $id])->row_array();
-        $path = './uploads/dokumen/'.$dokumenx['file'];
+        $suratx=$this->db->get_where('surat', ['id_surat' =>  $id])->row_array();
+        $path = './uploads/surat/'.$suratx['file'];
         unlink($path);
-        $this->DokumenModel->hapusDokumen($id);
+        $this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
         redirect('datadokumen');
     }

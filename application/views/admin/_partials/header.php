@@ -61,9 +61,9 @@
                 <li class="nav-item">
                   <a href="<?php echo base_url();?>suratmasuk" class="nav-link">Surat Masuk</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a href="<?php //echo base_url();?>suratkeluar" class="nav-link">Surat Keluar</a>
-                </li> -->
+                 <li class="nav-item">
+                  <a href="<?php echo base_url();?>suratkeluar" class="nav-link">Surat Keluar</a>
+                </li>
               </ul>
             </div>
           </li>

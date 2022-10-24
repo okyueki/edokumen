@@ -52,7 +52,7 @@ class eCuti extends CI_Controller
             $this->load->view('admin/_partials/footer');
         } else {
             $this->CutiModel->tambahCuti();
-            $this->SuratModel->tambahSurat($filename='');
+            $this->SuratModel->tambahSurat($filename='',$kategori='cuti');
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
             redirect('ecuti');
         }
@@ -60,7 +60,7 @@ class eCuti extends CI_Controller
     public function ubahcuti($id)
     {
         $data['judul'] = "Ubah Cuti";
-        $data['cuti'] = $this->CutiModel->getCutiById($id);
+        $data['cuti'] = $this->CutiModel->getCutiById($id,$kategori="cuti");
 
         $this->form_validation->set_rules('jenis_cuti', 'Jenis Cuti', 'required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required');
@@ -80,12 +80,12 @@ class eCuti extends CI_Controller
         } else {
             //echo "Berhasil";
             $this->CutiModel->ubahCuti($id);
-            $this->SuratModel->ubahSurat($id,$filename='');
+            $this->SuratModel->ubahSurat($id,$filename='',$kategori="cuti");
             $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
             redirect('ecuti');
         }
     }
-    public function hapuscuti($id)
+    public function hapuscuti($id,$kategori='cuti')
     {
         $this->CutiModel->hapusCuti($id);
         $this->SuratModel->hapusSurat($id);
