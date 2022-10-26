@@ -20,7 +20,7 @@
   	<script src="<?php echo base_url(); ?>assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
 	<script src="<?php echo base_url(); ?>assets/vendors/select2/dist/js/select2.full.min.js"></script>
 	<script src="<?php echo base_url(); ?>assets/vendors/dropify/dist/dropify.min.js"></script>
-
+	<script src="<?php echo base_url(); ?>assets/vendors/tinymce/tinymce.min.js"></script>
 	<!-- End plugin js for this page -->
 
 	<!-- inject:js -->
@@ -35,6 +35,7 @@
    	<script src="<?php echo base_url(); ?>assets/js/select2.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/dropify.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/app.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/tinymce.js"></script>
 	<!-- End custom js for this page -->
 
 </body>

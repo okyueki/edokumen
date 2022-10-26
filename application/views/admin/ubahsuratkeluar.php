@@ -25,11 +25,12 @@
 					</div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
-						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj">
+						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
 							<?php
                                 $pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $surat['nik_penerima']])->row_array();
-                            ?>
-                             <option value="<?php echo $pegawaix['nik']?>"><?php echo $pegawaix['nama']?></option>
+								print_r($pegawaix);
+							?>
+                             <option value="<?php echo $pegawaix['nik']?>" selected><?php echo $pegawaix['nama']?></option>
 							<?php
 								foreach ($pegawai as $p) :
 							?>
@@ -42,10 +43,9 @@
                         <small class="form-text text-danger"><?php echo form_error('pegawai');?></small>
                     </div>
 					<div class="mb-3">
-						<label for="exampleInputUsername1" class="form-label">File</label>
-						<input type="file" id="myDropify" name="file"  data-default-file="<?php echo base_url().'uploads/surat/'.$surat['file']; ?>"/>
-						<input type="hidden" value="<?php echo $surat['file']?>" name="oldfile"/>
-                        <small class="form-text text-danger"><?php echo form_error('file');?></small>
+						<label for="exampleInputUsername1" class="form-label">Isi Surat</label>
+						<textarea class="form-control" name="isi_surat" id="tinymceExample" rows="10"><?php echo $surat['isi_surat'];?></textarea>			
+                        <small class="form-text text-danger"><?php echo form_error('isi_surat');?></small>
                     </div>
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   <?php echo form_close(); ?>

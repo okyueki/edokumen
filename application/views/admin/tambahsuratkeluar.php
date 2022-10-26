@@ -3,7 +3,7 @@
 				<nav class="page-breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url()?>dashboard">eDokumen</a></li>
-						<li class="breadcrumb-item"><a href="<?php echo base_url()?>suratkeluar">eDokumen</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url()?>suratkeluar">Surat Keluar</a></li>
 						<li class="breadcrumb-item active" aria-current="page"><?php echo $judul;?></li>
 					</ol>
 				</nav>
@@ -26,7 +26,7 @@
 					</div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
-						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj">
+						<select class="js-example-basic-multiple form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
 							<?php
 								foreach ($pegawai as $p) :
 							?>
@@ -39,10 +39,15 @@
                         <small class="form-text text-danger"><?php echo form_error('pegawai');?></small>
                     </div>
 					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Isi Surat</label>
+						<textarea class="form-control" name="isi_surat" id="tinymceExample" rows="10"></textarea>			
+                        <small class="form-text text-danger"><?php echo form_error('isi_surat');?></small>
+                    </div>
+					<!-- <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">File</label>
 						<input type="file" id="myDropify" name="file"/>
-                        <small class="form-text text-danger"><?php echo form_error('file');?></small>
-                    </div>
+                        <small class="form-text text-danger"><?php //echo form_error('file');?></small>
+                    </div> -->
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   <?php echo form_close(); ?>
                 

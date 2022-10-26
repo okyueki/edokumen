@@ -28,7 +28,6 @@
                         <th>Penerima</th>
                         <th>Tanggal</th>
                         <th>Status</th>
-                        <th>File</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -48,17 +47,8 @@
                         <td><?php echo $s['tanggal']; ?></td>
                         <td><?php echo $s['status']; ?></td>
                         <td>
-                          <?php
-                            if($s['file']!=""){    
-                          ?>
-                            <a target="_blank" href="<?php echo base_url();?>uploads/surat/<?php echo $s['file'];?>"><i class="link-icon" data-feather="paperclip"></i></a>
-                          <?php
-                            }
-                          ?>
-                        </td>
-                        <td>
-                          <a href="<?php echo base_url();?>suratkeluar/ubahsuratkeluar/<?php echo $s['id_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
-                          <a href="<?php echo base_url();?>suratkeluar/hapussuratkeluar/<?php echo $s['id_surat'];?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
+                          <a href="<?php echo base_url();?>suratkeluar/ubahsuratkeluar/<?php echo $s['kode_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
+                          <a href="<?php echo base_url();?>suratkeluar/hapussuratkeluar/<?php echo $s['kode_surat'];?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
                         </td>
                       </tr>
                       <?php

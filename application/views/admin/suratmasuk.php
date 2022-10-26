@@ -24,7 +24,6 @@
                         <th>Pengirim</th>
                         <th>Penerima</th>
                         <th>Tanggal</th>
-                        <th>File</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -41,15 +40,6 @@
                         <td><?php echo $pengirim['nama']; ?></td>
                         <td><?php echo $penerima['nama']; ?></td>
                         <td><?php echo $sm['tanggal']; ?></td>
-                        <td>
-                            <?php
-                            if($sm['file']!=""){    
-                          ?>
-                            <a target="_blank" href="<?php echo base_url();?>uploads/surat/<?php echo $sm['file'];?>"><i class="link-icon" data-feather="paperclip"></i></a>
-                          <?php
-                            }
-                          ?>
-                        </td>
                         <td>
                           <a href="<?php echo base_url();?>suratmasuk/verifikasisurat/<?php echo $sm['nomor_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                         </td>

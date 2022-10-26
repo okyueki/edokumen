@@ -52,7 +52,7 @@ class eCuti extends CI_Controller
             $this->load->view('admin/_partials/footer');
         } else {
             $this->CutiModel->tambahCuti();
-            $this->SuratModel->tambahSurat($filename='',$kategori='cuti');
+            $this->SuratModel->tambahSurat($kategori='cuti');
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
             redirect('ecuti');
         }
@@ -80,7 +80,7 @@ class eCuti extends CI_Controller
         } else {
             //echo "Berhasil";
             $this->CutiModel->ubahCuti($id);
-            $this->SuratModel->ubahSurat($id,$filename='',$kategori="cuti");
+            $this->SuratModel->ubahSurat($id, $kategori="cuti");
             $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
             redirect('ecuti');
         }

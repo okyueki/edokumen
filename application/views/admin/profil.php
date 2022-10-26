@@ -14,11 +14,11 @@
             <div class="card">
               <div class="position-relative">
                 <figure class="overflow-hidden mb-0 d-flex justify-content-center">
-                  <img src="https://via.placeholder.com/1560x370"class="rounded-top" alt="profile cover">
+                  <img src="<?php echo base_url(); ?>assets/images/bgprofil.jpg"class="rounded-top" alt="profile cover">
                 </figure>
                 <div class="d-flex justify-content-between align-items-center position-absolute top-90 w-100 px-2 px-md-4 mt-n4">
                   <div>
-                    <img class="wd-70 rounded-circle" src="https://via.placeholder.com/100x100" alt="profile">
+                    <img class="wd-70 rounded-circle" src="<?php echo 'http://192.168.10.200/webapps2/penggajian/pages/pegawai/photo';?>" alt="profile">
                     <span class="h4 ms-3 text-dark"><?php echo $pegawai['nama']; ?></span>
                   </div>
                 </div>
@@ -97,6 +97,14 @@
                 <div class="mt-3">
                   <label class="tx-11 fw-bolder mb-0 text-uppercase">Bidang :</label>
                   <p class="text-muted"><?php echo $pegawai['bidang']?></p>
+                </div>
+                <div class="mt-3">
+                  <label class="tx-11 fw-bolder mb-0 text-uppercase">Status :</label>
+                  <p class="text-muted"><?php echo $pegawai['stts_nikah']?></p>
+                </div>
+                <div class="mt-3">
+                  <label class="tx-11 fw-bolder mb-0 text-uppercase">No Telfon:</label>
+                  <p class="text-muted"><?php echo $pegawai['no_telp']?></p>
                 </div>
                 <div class="mt-3 d-flex social-links">
                   <a href="javascript:;" class="btn btn-icon border btn-xs me-2">
