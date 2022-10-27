@@ -34,16 +34,32 @@
                     <tbody>
                          <?php
                             $i = 1;
+                            
                             foreach ($surat as $s) :
                                 $pengirim=$this->db2->get_where('pegawai', ['nik' =>  $s['nik_pengirim']])->row_array();
-                                $penerima=$this->db2->get_where('pegawai', ['nik' =>  $s['nik_penerima']])->row_array();
+                                $penerima = explode(",", $s['nik_penerima']);
+                                //print_r($penerima);
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $s['nomor_surat']; ?></td>
                         <td><?php echo $s['judul_surat']; ?></td>
                         <td><?php echo $pengirim['nama']; ?></td>
-                        <td><?php echo $penerima['nama']; ?></td>
+                        <td>
+                          <?php
+                            
+                            $sx = 0;
+                          
+                            foreach ($penerima as $p) :
+                              
+                             $penerima=$this->db2->get_where('pegawai', ['nik' =>  $p[$sx]])->row_array();
+                             print_r($penerima);
+                            
+                             $sx++;
+                            endforeach;
+                          
+                         ?>
+                        </td>
                         <td><?php echo $s['tanggal']; ?></td>
                         <td><?php echo $s['status']; ?></td>
                         <td>
@@ -52,6 +68,7 @@
                         </td>
                       </tr>
                       <?php
+                      
                         $i++;
                         endforeach;
                       ?>
