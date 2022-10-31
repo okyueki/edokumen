@@ -24,6 +24,7 @@
                         <th>Nama</th>
                         <th>NIK</th>
                         <th>Password</th>
+                        <th>Unit</th>
                         <th>Hak Akses</th>
                         <th>Action</th>
                       </tr>
@@ -39,6 +40,7 @@
                         <td><?php echo $pegawaix['nama']; ?></td>
                         <td><?php echo $h['nik']; ?></td>
                          <td><?php echo $h['password']; ?></td>
+                         <td><?php echo $h['nama_unit']; ?></td>
                           <td><span class="badge bg-primary"><?php echo $h['hak_akses']; ?></span></td>
                         <td>
                           <a href="<?php echo base_url();?>hakakses/ubahhakakses/<?php echo $h['id_hak_akses']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>

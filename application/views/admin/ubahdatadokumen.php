@@ -45,6 +45,31 @@
                          <small class="form-text text-danger"><?php echo form_error('tanggal_berakhir');?></small>
                     </div>
 					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Unit Terkait</label>
+						<select class="js-example-basic-single form-select" data-width="100%" name="unit[]" multiple="multiple">
+							<?php
+								$unit_arr = explode(",", $dokumen['id_unit']);
+								foreach ($unit_arr as $ur) :
+									 $unitxx=$this->db->get_where('unit', ['id_unit' =>  $ur])->row_array();
+							?>
+                             <option value="<?php echo $unitxx['id_unit'];?>" selected><?php echo $unitxx['nama_unit'];?></option>
+
+							<?php
+							 	endforeach;
+							?>
+					
+							<?php
+								foreach ($unit as $u) :
+							?>
+                            <option value="<?php echo $u['id_unit']?>"><?php echo $u['nama_unit']?></option>
+							 <?php
+                       
+                        		endforeach;
+                     		 ?>
+						</select>
+                        <small class="form-text text-danger"><?php echo form_error('jenis_dokumen');?></small>
+                    </div>
+					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Jenis Dokumen</label>
 						<select class="js-example-basic-single form-select" data-width="100%" name="jenis_dokumen">
 							<?php

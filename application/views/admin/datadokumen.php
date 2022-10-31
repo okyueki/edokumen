@@ -17,17 +17,18 @@
                     <div class="alert alert-danger"><i data-feather="alert-circle"></i> <?php echo $this->session->flashdata('error'); ?></div>
                   <?php }?>
                 <a href="<?php echo base_url();?>datadokumen/tambahdatadokumen" class="btn btn-primary me-2"><i class="link-icon" data-feather="plus-square"></i> Tambah Dokumen</a>
-                <div class="table-responsive mt-3">
-                  <table id="dataTableExample" class="table">
+                <div class="table-responsive mt-3">  
+                  <table id="dataTableExample" class="table table-striped">
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Nomor Dokumen</th>
-                        <th>Nama Dokumen</th>
+                        <th style="width:100%">Nama Dokumen</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Berakhir</th>
                         <th>Pegawai</th>
                         <th>Jenis Dokumen</th>
+                        <th>Unit Terkait</th>
                         <th>Penyimpanan</th>
                         <th>File</th>
                         <th>Action</th>
@@ -38,7 +39,8 @@
                             $i = 1;
                             foreach ($dokumen as $d) :
                                 $pegawai=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $d['nik']])->row_array();
-                         ?>
+                                 $unit = explode(",", $d['id_unit']);
+                        ?>
                       <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $d['nomor_dokumen']; ?></td>
@@ -60,6 +62,23 @@
                             }
                           ?>
                         </td>
+                        <td>
+                          <ul>
+                          <?php
+                            $hitung=count($unit);
+                            foreach ($unit as $u) :
+                              $unitxxx=$this->db->get_where('unit', ['id_unit' =>  $u])->row_array();
+                            if ($hitung > 1) {
+                              echo "<li>".$unitxxx['nama_unit']."<br></li>";
+                            }else{
+                              echo "<li>".$unitxxx['nama_unit']."</li>";
+                            }                           
+                          endforeach;
+                          
+                         ?>
+                         </ul>
+                        </td>
+                        
                         <td><?php echo $d['nama_lemari']; ?> / <?php echo $d['nama_rak']; ?></td>
                         <td>
                           <?php

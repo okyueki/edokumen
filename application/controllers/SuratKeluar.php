@@ -79,6 +79,6 @@ class SuratKeluar extends CI_Controller
     {
         $this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
-        redirect('datadokumen');
+        redirect('suratkeluar');
     }
 }

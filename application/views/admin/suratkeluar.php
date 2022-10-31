@@ -46,19 +46,20 @@
                         <td><?php echo $s['judul_surat']; ?></td>
                         <td><?php echo $pengirim['nama']; ?></td>
                         <td>
+                          <ul>
                           <?php
-                            
-                            $sx = 0;
-                          
+                            $hitung=count($penerima);
                             foreach ($penerima as $p) :
-                              
-                             $penerima=$this->db2->get_where('pegawai', ['nik' =>  $p[$sx]])->row_array();
-                             print_r($penerima);
-                            
-                             $sx++;
-                            endforeach;
+                              $penerima=$this->db2->get_where('pegawai', ['nik' =>  $p])->row_array();
+                            if ($hitung > 1) {
+                              echo "<li>".$penerima['nama']."<br></li>";
+                            }else{
+                              echo "<li>".$penerima['nama']."</li>";
+                            }                           
+                          endforeach;
                           
                          ?>
+                         </ul>
                         </td>
                         <td><?php echo $s['tanggal']; ?></td>
                         <td><?php echo $s['status']; ?></td>

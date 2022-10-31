@@ -3,14 +3,16 @@ class HakAksesModel extends CI_model
 {
     public function getAllHakAkses()
     {
-        return $this->db->get('hak_akses')->result_array();
+        return $this->db->select('hak_akses.*, unit.nama_unit')->join('unit', 'unit.id_unit=hak_akses.id_unit')
+        ->get('hak_akses')->result_array();
     }
     public function tambahHakAkses()
     {
         $data = [
             "nik" => $this->input->post("nik"),
             "password" => $this->input->post("password"),
-            "hak_akses" => $this->input->post("hak_akses")
+            "hak_akses" => $this->input->post("hak_akses"),
+            "id_unit" => $this->input->post("unit")
         ];
         $this->db->insert('hak_akses', $data);
     }
@@ -23,7 +25,8 @@ class HakAksesModel extends CI_model
         $data = [
             "nik" => $this->input->post("nik"),
             "password" => $this->input->post("password"),
-            "hak_akses" => $this->input->post("hak_akses")
+            "hak_akses" => $this->input->post("hak_akses"),
+            "id_unit" => $this->input->post("unit")
         ];
         $this->db->where('id_hak_akses', $id);
         $this->db->update('hak_akses', $data);

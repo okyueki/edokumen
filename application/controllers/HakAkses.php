@@ -17,6 +17,7 @@ class HakAkses extends CI_Controller
         $this->db2=$this->load->database('serverkhanza', TRUE);
         $this->load->model('HakAksesModel');
         $this->load->model('PegawaiModel');
+        $this->load->model('UnitModel');
     }
 
     public function index()
@@ -34,10 +35,12 @@ class HakAkses extends CI_Controller
         $this->form_validation->set_rules('nik', 'NIK', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('hak_akses', 'Hak Akses', 'required');
+        $this->form_validation->set_rules('unit', 'Unit', 'required');
 
         if ($this->form_validation->run() == false) {
             $data['hakakses'] = $this->HakAksesModel->getAllHakAkses();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
+            $data['unit'] = $this->UnitModel->getAllUnit();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/tambahhakakses',$data);
@@ -56,9 +59,10 @@ class HakAkses extends CI_Controller
         $this->form_validation->set_rules('nik', 'NIK', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('hak_akses', 'Hak Akses', 'required');
+        $this->form_validation->set_rules('unit', 'Unit', 'required');
 
         if ($this->form_validation->run() == false) {
-            //$data['lemari'] = $this->LemariModel->getAllLemari();
+            $data['unit'] = $this->UnitModel->getAllUnit();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/ubahhakakses', $data);

@@ -38,6 +38,25 @@
                          <small class="form-text text-danger"><?php echo form_error('password');?></small>
                     </div>
                     <div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Unit</label>
+						 <select class="js-example-basic-single form-select" data-width="100%" name="unit">
+                            <?php
+                                $unitx=$this->db->get_where('unit', ['id_unit' => $hakakses['id_unit']])->row_array();
+                            ?>
+                             <option value="<?php echo $unitx['id_unit']?>"><?php echo $unitx['nama_unit']; ?></option>
+							
+                            <?php
+								foreach ($unit as $u) :
+							?>
+                            <option value="<?php echo $u['id_unit']?>"><?php echo $u['nama_unit']?></option>
+							 <?php
+                       
+                        		endforeach;
+                     		 ?>
+						</select>
+                         <small class="form-text text-danger"><?php echo form_error('unit');?></small>
+                    </div>
+                    <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Hak Akses</label>
 						 <select class="js-example-basic-single form-select" data-width="100%" name="hak_akses">
                             <option value="<?php echo $hakakses['hak_akses']?>"><?php echo $hakakses['hak_akses']?></option>
@@ -47,6 +66,7 @@
                         </select>
                          <small class="form-text text-danger"><?php echo form_error('password');?></small>
                     </div>
+
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   <?php echo form_close(); ?>
                 

@@ -32,16 +32,29 @@
                             $i = 1;
                             foreach ($suratmasuk as $sm) :
                                 $pengirim=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $sm['nik_pengirim']])->row_array();
-                                $penerima=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $sm['nik_penerima']])->row_array();
+                                $penerima = explode(",", $sm['nik_penerima']);
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $sm['judul_surat']; ?></td>
                         <td><?php echo $pengirim['nama']; ?></td>
-                        <td><?php echo $penerima['nama']; ?></td>
+                        <td><ul>
+                          <?php
+                            $hitung=count($penerima);
+                            foreach ($penerima as $p) :
+                              $penerima=$this->db2->get_where('pegawai', ['nik' =>  $p])->row_array();
+                            if ($hitung > 1) {
+                              echo "<li>".$penerima['nama']."<br></li>";
+                            }else{
+                              echo "<li>".$penerima['nama']."</li>";
+                            }                           
+                          endforeach;
+                          
+                         ?>
+                         </ul></td>
                         <td><?php echo $sm['tanggal']; ?></td>
                         <td>
-                          <a href="<?php echo base_url();?>suratmasuk/verifikasisurat/<?php echo $sm['nomor_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
+                          <a href="<?php echo base_url();?>suratmasuk/verifikasisurat/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                         </td>
                       </tr>
                       <?php

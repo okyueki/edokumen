@@ -20,6 +20,7 @@ class DataDokumen extends CI_Controller
         $this->load->model('LemariModel');
         $this->load->model('RakModel');
         $this->load->model('JenisDokumenModel');
+        $this->load->model('UnitModel');
     }
 
     public function index()
@@ -41,12 +42,14 @@ class DataDokumen extends CI_Controller
         $this->form_validation->set_rules('rak', 'Rak', 'required');
         $this->form_validation->set_rules('jenis_dokumen', 'Jenis Dokumen', 'required');
         $this->form_validation->set_rules('nomor_dokumen', 'Nomor Dokumen', 'required');
+        $this->form_validation->set_rules('unit[]', 'Unit', 'required');
         if (empty($_FILES['file']['name'])){
             $this->form_validation->set_rules('file', 'File', 'required');
         }
         if ($this->form_validation->run() == false) {
             $data['dokumen'] = $this->DokumenModel->getAllDokumen();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
+            $data['unit'] = $this->UnitModel->getAllUnit();
             $data['rak'] = $this->RakModel->getAllRak();
             $data['lemari'] = $this->LemariModel->getAllLemari();
             $data['jenisdokumen'] = $this->JenisDokumenModel->getAllJenisDokumen();
@@ -87,6 +90,7 @@ class DataDokumen extends CI_Controller
         $this->form_validation->set_rules('rak', 'Rak', 'required');
         $this->form_validation->set_rules('jenis_dokumen', 'Jenis Dokumen', 'required');
         $this->form_validation->set_rules('nomor_dokumen', 'Nomor Dokumen', 'required');
+        $this->form_validation->set_rules('unit[]', 'Unit', 'required');
 
         if (empty($_FILES['file']['name'])){
             $this->form_validation->set_rules('file', 'File', '');
@@ -96,6 +100,7 @@ class DataDokumen extends CI_Controller
             //$data['dokumen'] = $this->DokumenModel->getAllDokumen();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
             $data['rak'] = $this->RakModel->getAllRak();
+            $data['unit'] = $this->UnitModel->getAllUnit();
             $data['lemari'] = $this->LemariModel->getAllLemari();
             $data['jenisdokumen'] = $this->JenisDokumenModel->getAllJenisDokumen();
             $this->load->view('admin/_partials/header');

@@ -33,7 +33,7 @@ class SuratMasuk extends CI_Controller
         $data['judul'] = "Verifikasi Surat";
         $this->form_validation->set_rules('verifikasi_surat', 'Verifikasi Surat', 'required');
         if ($this->form_validation->run() == false) {
-            $data['suratmasuk'] = $this->SuratModel->getSuratById($id);
+            $data['suratmasuk'] = $this->SuratModel->getSuratById($id, $kategori='surat');
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/verifikasisurat', $data);

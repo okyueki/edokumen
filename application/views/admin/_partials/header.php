@@ -68,11 +68,26 @@
             </div>
           </li>
           <li class="nav-item">
-            <a href="<?php echo base_url();?>datadokumen" class="nav-link">
+            <a class="nav-link" data-bs-toggle="collapse" href="#dokumen" role="button" aria-expanded="false" aria-controls="emails">
               <i class="link-icon" data-feather="file-text"></i>
-              <span class="link-title">Data Dokumen</span>
+              <span class="link-title">Dokumen</span>
+              <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
+            <div class="collapse" id="dokumen">
+              <ul class="nav sub-menu">
+                <li class="nav-item">
+                  <a href="<?php echo base_url();?>lihatdokumen/spo" class="nav-link">SPO</a>
+                </li>
+                 <li class="nav-item">
+                  <a href="<?php echo base_url();?>lihatdokumen/pedoman" class="nav-link">Peraturan & Pedoman</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a href="<?php //echo base_url();?>sk" class="nav-link">Surat Keputusan</a>
+                </li> -->
+              </ul>
+            </div>
           </li>
+          
           <li class="nav-item">
             <a href="<?php echo base_url();?>ecuti" class="nav-link">
               <i class="link-icon" data-feather="file-text"></i>
@@ -83,6 +98,14 @@
             <a href="<?php echo base_url();?>ebook" class="nav-link">
               <i class="link-icon" data-feather="file-text"></i>
               <span class="link-title">eBook</span>
+            </a>
+          </li>
+
+          <li class="nav-item nav-category">Master</li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>datadokumen" class="nav-link">
+              <i class="link-icon" data-feather="file-text"></i>
+              <span class="link-title">Data Dokumen</span>
             </a>
           </li>
           <?php
@@ -124,6 +147,12 @@
             <a href="<?php echo base_url();?>hakakses" class="nav-link">
               <i class="link-icon" data-feather="unlock"></i>
               <span class="link-title">Hak Akses</span>
+            </a>
+          </li>
+           <li class="nav-item">
+            <a href="<?php echo base_url();?>unit" class="nav-link">
+              <i class="link-icon" data-feather="grid"></i>
+              <span class="link-title">Unit</span>
             </a>
           </li>
           <?php

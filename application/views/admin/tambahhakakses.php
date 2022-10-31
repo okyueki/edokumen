@@ -33,6 +33,20 @@
 						<input type="text" class="form-control" name="password" id="exampleInputUsername1" autocomplete="off" placeholder="Password">
                          <small class="form-text text-danger"><?php echo form_error('password');?></small>
                     </div>
+					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Unit</label>
+						 <select class="js-example-basic-single form-select" data-width="100%" name="unit">
+							<?php
+								foreach ($unit as $u) :
+							?>
+                            <option value="<?php echo $u['id_unit']?>"><?php echo $u['nama_unit']?></option>
+							 <?php
+                       
+                        		endforeach;
+                     		 ?>
+						</select>
+                         <small class="form-text text-danger"><?php echo form_error('unit');?></small>
+                    </div>
                     <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Hak Akses</label>
 						 <select class="js-example-basic-single form-select" data-width="100%" name="hak_akses">

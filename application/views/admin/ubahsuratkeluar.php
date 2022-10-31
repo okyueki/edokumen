@@ -12,7 +12,7 @@
             <div class="card">
               <div class="card-body">
                 <h6 class="card-title mb-3"><?php echo $judul;?></h6>
-                 <?php echo form_open_multipart('suratkeluar/ubahsuratkeluar/'.$surat['id_surat']); ?>
+                 <?php echo form_open_multipart('suratkeluar/ubahsuratkeluar/'.$surat['kode_surat']); ?>
 				 <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Nomor Surat</label>
 						<input type="text" class="form-control" name="nomor_surat" value="<?php echo $surat['nomor_surat'];?>" id="exampleInputUsername1" autocomplete="off" placeholder="Nomor Surat">
@@ -27,10 +27,15 @@
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
 						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
 							<?php
-                                $pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $surat['nik_penerima']])->row_array();
-								print_r($pegawaix);
+								$penerima = explode(",", $surat['nik_penerima']);
+								foreach ($penerima as $p) :
+									 $pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $p])->row_array();
 							?>
                              <option value="<?php echo $pegawaix['nik']?>" selected><?php echo $pegawaix['nama']?></option>
+
+							<?php
+							 	endforeach;
+							?>
 							<?php
 								foreach ($pegawai as $p) :
 							?>
