@@ -3,7 +3,7 @@ class SuratModel extends CI_model
 {
     public function getAllSuratKeluar()
     {
-         return $this->db->not_like('nomor_surat','SF')->get_where('surat', ['nik_pengirim' =>  $this->session->userdata('nik')])->result_array();
+         return $this->db->not_like('kode_surat','SF')->get_where('surat', ['nik_pengirim' =>  $this->session->userdata('nik')])->result_array();
     }
     public function getSuratMasuk()
     {
@@ -106,6 +106,8 @@ class SuratModel extends CI_model
     public function hapusSurat($id,$kategori)
     {
          if($kategori=="surat"){
+            $this->db->where('kode_surat', $id);
+        $this->db->delete('verifikasi_surat');
         $this->db->where('kode_surat', $id);
         $this->db->delete('surat');
          }else{
@@ -118,7 +120,17 @@ class SuratModel extends CI_model
         $data = [
             "status" => "Sudah Dibaca"
         ];
-        $this->db->where('nomor_surat', $id);
+        $this->db->where('kode_surat', $id);
         $this->db->update('surat', $data);
+    }
+    public function getVerifikasiSuratById($id,$kategori)
+    {
+         if($kategori=="surat"){
+            return $this->db
+            ->like("nik_penerima",$this->session->userdata('nik'))
+            ->get_where('surat', ['kode_surat' => $id])->row_array();
+         }else{
+        return $this->db->get_where('surat', ['nomor_surat' => $id])->row_array();
+         }
     }
 }

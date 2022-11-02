@@ -34,7 +34,6 @@
                     <tbody>
                          <?php
                             $i = 1;
-                            
                             foreach ($surat as $s) :
                                 $pengirim=$this->db2->get_where('pegawai', ['nik' =>  $s['nik_pengirim']])->row_array();
                                 $penerima = explode(",", $s['nik_penerima']);
@@ -62,7 +61,13 @@
                          </ul>
                         </td>
                         <td><?php echo $s['tanggal']; ?></td>
-                        <td><?php echo $s['status']; ?></td>
+                        <td><?php 
+                        if($s['status']=='Sudah Dibaca'){
+                            echo "<span class='badge border border-success text-success'>".$s['status']."</span>"; 
+                        }else{
+                          echo "<span class='badge border border-danger text-danger'>".$s['status']."</span>"; 
+                        }
+                        ?></td>
                         <td>
                           <a href="<?php echo base_url();?>suratkeluar/ubahsuratkeluar/<?php echo $s['kode_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                           <a href="<?php echo base_url();?>suratkeluar/hapussuratkeluar/<?php echo $s['kode_surat'];?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>

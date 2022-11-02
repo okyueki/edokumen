@@ -1,11 +1,17 @@
 <?php
 class VerifikasiSuratModel extends CI_model
 {
-    public function tambahVerifikasiSurat()
+    public function getAllVerifikasi($id)
     {
-          $count = count($this->input->post('nik_pj'));
-          for($i=0 ; $i < $count; $i++){
-            
-          }
+         return $this->db->get_where('verifikasi_surat', ['kode_surat' => $id])->result_array();
+    }
+    public function UpdateVerifikasiSurat($id,$image_name){
+        $data = [
+                "catatan" => $this->input->post("catatan"),
+                "status_verifikasi" => $this->input->post("verifikasi_surat"),
+                "qrcode" => $image_name,
+        ];
+        $this->db->where('kode_surat', $id)->where('nik', $this->session->userdata('nik'));
+        $this->db->update('verifikasi_surat', $data);
     }
 }

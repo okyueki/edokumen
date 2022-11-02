@@ -16,7 +16,9 @@ class SuratMasuk extends CI_Controller
         $this->db=$this->load->database('default', TRUE);
         $this->db2=$this->load->database('serverkhanza', TRUE);
         $this->load->model('SuratModel');
+        $this->load->model('PegawaiModel');
         $this->load->model('CutiModel');
+        $this->load->model('VerifikasiSuratModel');
     }
 
     public function index()
@@ -31,9 +33,13 @@ class SuratMasuk extends CI_Controller
     public function verifikasisurat($id)
     {
         $data['judul'] = "Verifikasi Surat";
+       $this->SuratModel->VerifikasiSurat($id);
         $this->form_validation->set_rules('verifikasi_surat', 'Verifikasi Surat', 'required');
+        $this->form_validation->set_rules('catatan', 'Catatan', 'required');
         if ($this->form_validation->run() == false) {
-            $data['suratmasuk'] = $this->SuratModel->getSuratById($id, $kategori='surat');
+            $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
+            $data['suratmasuk'] = $this->SuratModel->getVerifikasiSuratById($id, $kategori='surat');
+            $data['verifikasisurat'] = $this->VerifikasiSuratModel->getAllVerifikasi($id);
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/verifikasisurat', $data);
@@ -58,9 +64,8 @@ class SuratMasuk extends CI_Controller
             $params['size'] = 10;
             $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
             $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
-
-            $this->SuratModel->VerifikasiSurat($id);
-            $this->CutiModel->VerifikasiSurat($id,$image_name);
+            $this->VerifikasiSuratModel->UpdateVerifikasiSurat($id,$image_name);
+            //$this->CutiModel->VerifikasiSurat($id,$image_name);
             $this->session->set_flashdata('sukses', 'Data Berhasil Diverifikasi');
             redirect('suratmasuk');
         }

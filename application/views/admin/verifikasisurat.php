@@ -22,7 +22,7 @@
                                 </ul>
                                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <ul class="list-group list-group-flush">
+                                    
                                     <ol class="list-group list-group-numbered">
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
@@ -73,21 +73,41 @@
                                             <div class="ms-2 me-auto">
                                             <div class="fw-bold">Status</div>
                                             <?php 
-                                                $cuti=$this->db->get_where('cuti', ['nomor_surat' =>  $suratmasuk['nomor_surat']])->row_array();
-                                                echo "<span class='badge bg-primary'>".$cuti['status']."</span>";
+                                                foreach ($verifikasisurat as $vs) :
+                                                    $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $vs['nik']])->row_array();
+                                                     if($vs['status_verifikasi']=="Proses Verifikasi"){
+                                                        echo $pegawaix['nama']." : ". "<span class='badge border border-primary text-primary'>".$vs['status_verifikasi']."</span> ";
+                                                     }elseif($vs['status_verifikasi']=="Disetujui"){
+                                                        echo $pegawaix['nama']." : ". "<span class='badge border border-success text-success'>".$vs['status_verifikasi']."</span> ";
+                                                     }else{
+                                                        echo $pegawaix['nama']." : ". "<span class='badge border border-danger text-danger'>".$vs['status_verifikasi']."</span> ";
+                                                     }
+                                                    endforeach;
                                             ?>
                                             </div>
                                            
                                         </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        </ol>
+                                        <ul class="list-group">
+                                        <li class="list-group-item">
                                             <div class="ms-2 me-auto">
-                                            <?php echo form_open_multipart('suratmasuk/verifikasisurat/'.$suratmasuk['nomor_surat']); ?>
+                                            <?php echo form_open_multipart('suratmasuk/verifikasisurat/'.$suratmasuk['kode_surat']); ?>
                                                 <div class="mb-3">
                                                         <label for="exampleInputUsername1" class="form-label">Verifikasi Surat</label>
                                                         <select class="js-example-basic-single form-select" data-width="100%" style="width:100%;" name="verifikasi_surat">
-                                                           <option value="Disetujui">Disetujui</option>
+                                                           <?php
+                                                              $verif=$this->db->like("nik",$this->session->userdata('nik'))->get_where('verifikasi_surat', ['kode_surat' => $suratmasuk['kode_surat']])->row_array();
+                                                           ?>
+                                                           <option value="<?php echo $verif['status_verifikasi'];?>"><?php echo $verif['status_verifikasi'];?></option>
+                                                            <option value="Disetujui">Disetujui</option>
                                                            <option value="Ditolak">Ditolak</option>
                                                         </select>
+                                                        <small class="form-text text-danger"><?php echo form_error('verifikasi_surat');?></small>
+                                                        
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlTextarea1" class="form-label">Catatan</label>
+                                                       <textarea class="form-control" id="exampleFormControlTextarea1" name="catatan" rows="5"><?php echo $verif['catatan'];?></textarea>
                                                         <small class="form-text text-danger"><?php echo form_error('verifikasi_surat');?></small>
                                                         
                                                     </div>
@@ -96,8 +116,42 @@
                                             </div>
                                            
                                         </li>
-                                    </ol>
-                                    
+                                        <?php
+                                             $unitx=$this->db->get_where('unit', ['id_unit' =>  $this->session->userdata('id_unit')])->row_array();
+                                            if($unitx['nama_unit']=="Direktur"){                                      
+                                        ?>
+                                        <li class="list-group-item">
+                                            <div class="ms-2 me-auto">
+                                            <?php echo form_open_multipart('suratmasuk/disposisi/'.$suratmasuk['kode_surat']); ?>
+                                                <div class="mb-3">
+                                                        <label for="exampleInputUsername1" class="form-label">Disposisi</label>
+                                                       <select class="js-example-basic-multiple form-select" data-width="100%" name="nik[]" multiple="multiple">
+                                                            <?php
+                                                                foreach ($pegawai as $p) :
+                                                            ?>
+                                                            <option value="<?php echo $p['nik']?>"><?php echo $p['nama']?></option>
+                                                            <?php
+                                                    
+                                                                endforeach;
+                                                            ?>
+                                                        </select>
+                                                        <small class="form-text text-danger"><?php echo form_error('verifikasi_surat');?></small>
+                                                        
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlTextarea1" class="form-label">Catatan</label>
+                                                       <textarea class="form-control" id="exampleFormControlTextarea1" name="catatan" rows="5"><?php echo $verif['catatan'];?></textarea>
+                                                        <small class="form-text text-danger"><?php echo form_error('verifikasi_surat');?></small>
+                                                        
+                                                    </div>
+                                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                            <?php echo form_close(); ?>
+                                            </div>
+                                           
+                                        </li>
+                                        <?php
+                                            }
+                                        ?>
                                     </ul>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
