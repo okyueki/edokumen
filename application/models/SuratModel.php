@@ -133,4 +133,8 @@ class SuratModel extends CI_model
         return $this->db->get_where('surat', ['nomor_surat' => $id])->row_array();
          }
     }
+     public function cetakSurat($id)
+    {
+        return $this->db->get_where('surat', ['kode_surat' => $id])->row_array();
+    }
 }

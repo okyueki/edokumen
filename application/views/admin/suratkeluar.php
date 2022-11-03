@@ -41,7 +41,7 @@
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
-                        <td><?php echo $s['nomor_surat']; ?></td>
+                        <td><a href="<?php echo base_url();?>suratmasuk/detailsurat/<?php echo $s['kode_surat']?>"><?php echo $s['nomor_surat']; ?></a></td>
                         <td><?php echo $s['judul_surat']; ?></td>
                         <td><?php echo $pengirim['nama']; ?></td>
                         <td>
@@ -69,6 +69,7 @@
                         }
                         ?></td>
                         <td>
+                          <a href="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $s['kode_surat'];?>" class="btn btn-success me-2"><i class="link-icon" data-feather="printer"></i></a>
                           <a href="<?php echo base_url();?>suratkeluar/ubahsuratkeluar/<?php echo $s['kode_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                           <a href="<?php echo base_url();?>suratkeluar/hapussuratkeluar/<?php echo $s['kode_surat'];?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
                         </td>

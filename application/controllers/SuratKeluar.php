@@ -75,10 +75,15 @@ class SuratKeluar extends CI_Controller
              
         }
     }
-     public function hapussuratkeluar($id,$kategori='surat')
+    public function hapussuratkeluar($id,$kategori='surat')
     {
         $this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
         redirect('suratkeluar');
+    }
+    public function cetakSurat($id)
+    {
+        $data['cetaksurat']=$this->SuratModel->cetakSurat($id);
+        $this->load->view('admin/cetaksurat', $data);
     }
 }

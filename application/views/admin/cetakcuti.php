@@ -51,6 +51,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                    <br>
+                    <br>
                     <img width="280" src="<?php echo base_url(); ?>assets/images/logosifat.png" alt="Siti Fatimah Logo">
                     <hr>
                     <h4 style="text-align:center;text-decoration:underline;">PERMOHONAN CUTI / AMBIL LIBUR</h4>
