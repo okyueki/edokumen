@@ -28,6 +28,33 @@
             padding-bottom:2px !important;
             padding-left:0px !important;
         }
+        .MsoTableGrid{
+            width: 100% !important;
+            height: 0px !important;
+            border-spacing: 0 !important;
+        }
+        .MsoTableGrid > tbody > tr,
+        .MsoTableGrid > tbody > tr td{
+            border-spacing: 0 !important; 
+            border-collapse: collapse !important;
+            height: 10px !important;
+        }
+        .table{
+            margin-top: 10px !important;
+        }
+        .table > tbody > tr > td{
+            border: 0 !important;
+            padding: 0 !important;
+        }
+        hr{
+            border: 1px solid black;
+            opacity: 1;
+            display: block;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+        }
         @media print {
         html, body {
             width: 210mm;
@@ -43,13 +70,9 @@
             background: initial;
             page-break-after: always;
         }
-        .MsoNormal{
-             border: initial;
-            border-radius: initial;
-            width: initial;
-            min-height: initial;
-            box-shadow: initial;
-            background: initial;
+         .MsoTableGrid{
+            width: 100% !important;
+            height: 0 !important;
         }
     }
     </style>
@@ -62,11 +85,47 @@
                     <br>
                     <br>
                     <img width="280" src="<?php echo base_url(); ?>assets/images/logosifat.png" alt="Siti Fatimah Logo">
-                    <hr>
+                   
                 </div>
+                 <div class="col-12">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Nomor</td>
+                                <td>:</td>
+                                <td> <?php
+                                    echo $cetaksurat['nomor_surat'];
+                                ?></td>
+                            </tr>
+                            <tr>
+                                <td>Lampiran</td>
+                                <td>:</td>
+                                <td><?php
+                                    echo $cetaksurat['lampiran'];
+                                ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <hr>
                 <?php
                     echo $cetaksurat['isi_surat'];
                 ?>
+                 </div>
+                 <div class="col-12">
+                    <p style="font-size: 12.0pt;"><strong>
+                    <?php
+                        $unit = $this->db->select('hak_akses.*, unit.nama_unit')->join('unit', 'unit.id_unit=hak_akses.id_unit')
+                        ->get_where('hak_akses', ['nik' =>  $cetaksurat['nik_pengirim']])->row_array();
+
+                        echo $unit['nama_unit']." ";
+                    ?>    
+                    RS ’Aisyiyah Siti Fatimah</strong></p>
+                    <img style="width:128px; height:auto; border-radius:0;" src="<?php echo base_url();?>assets/qrcode/<?php echo $cetaksurat['qrcode'];?>" alt="">
+                    <p style="font-size: 12.0pt;"><u><strong><?php
+                        $pegawaixy=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $cetaksurat['nik_pengirim']])->row_array();
+                         echo $pegawaixy['nama'];
+                    ?></strong></u></p>
+                 </div>
             </div>
         </div>
 

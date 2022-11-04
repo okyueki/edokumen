@@ -18,7 +18,7 @@
 						class="d-flex justify-content-between align-items-center position-absolute top-90 w-100 px-2 px-md-4 mt-n4">
 						<div>
 							<img class="wd-70 rounded-circle"
-								src="<?php echo 'http://192.168.10.200/webapps2/penggajian/pages/pegawai/photo';?>" alt="profile">
+								src="<?php echo 'http://192.168.10.200/webapps2/penggajian/'.$pegawai['photo'];?>" alt="profile">
 							<span class="h4 ms-3 text-dark"><?php echo $pegawai['nama']; ?></span>
 						</div>
 					</div>

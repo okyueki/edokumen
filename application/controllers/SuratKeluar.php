@@ -35,6 +35,7 @@ class SuratKeluar extends CI_Controller
         $this->form_validation->set_rules('judul_surat', 'Judul Surat', 'required');
         $this->form_validation->set_rules('nik_pj[]', 'Dikirim Ke', 'required');
         $this->form_validation->set_rules('isi_surat', 'Isi Surat', 'required');
+        $this->form_validation->set_rules('lampiran', 'Lampiran', 'required');
 
         if ($this->form_validation->run() == false) {
             $data['surat'] = $this->SuratModel->getAllSuratKeluar();
@@ -59,6 +60,8 @@ class SuratKeluar extends CI_Controller
         $this->form_validation->set_rules('judul_surat', 'Judul Surat', 'required');
         $this->form_validation->set_rules('nik_pj[]', 'Dikirim Ke', 'required');
         $this->form_validation->set_rules('isi_surat', 'Isi Surat', 'required');
+        $this->form_validation->set_rules('lampiran', 'Lampiran', 'required');
+
 
         if ($this->form_validation->run() == false) {
             //$data['surat'] = $this->SuratModel->getAllSurat();

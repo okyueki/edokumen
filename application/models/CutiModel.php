@@ -9,7 +9,7 @@ class CutiModel extends CI_model
     public function tambahCuti()
     {
         $format = 'SF' . date('Ymd');
-        $db = $this->db->get_where('surat', ['nomor_surat' =>  $format])->row_array();
+        $db = $this->db->from('surat')->like('kode_surat', $format)->order_by('kode_surat', 'DESC')->get()->row_array();
         $nourut = substr($db['nomor_surat'], 10, 3);
         $kodePengajuanSekarang = $nourut + 1;
         $data = [

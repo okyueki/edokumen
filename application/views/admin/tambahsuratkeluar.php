@@ -38,16 +38,18 @@
 						</select>
                         <small class="form-text text-danger"><?php echo form_error('pegawai');?></small>
                     </div>
+					
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Isi Surat</label>
 						<textarea class="form-control" name="isi_surat" id="tinymceExample" rows="10"></textarea>			
                         <small class="form-text text-danger"><?php echo form_error('isi_surat');?></small>
                     </div>
-					<!-- <div class="mb-3">
-						<label for="exampleInputUsername1" class="form-label">File</label>
-						<input type="file" id="myDropify" name="file"/>
-                        <small class="form-text text-danger"><?php //echo form_error('file');?></small>
-                    </div> -->
+					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Lampiran</label>
+						<input type="text" class="form-control" name="lampiran" id="exampleInputUsername1" autocomplete="off" placeholder="Lampiran">
+                         <small class="form-text text-danger"><?php echo form_error('lampiran');?></small>
+					</div>
+				
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   <?php echo form_close(); ?>
                 

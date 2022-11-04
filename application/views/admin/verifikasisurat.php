@@ -155,7 +155,7 @@
                                     </ul>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <iframe src="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $suratmasuk['nomor_surat']?>" title="" width="100%" height="400px"></iframe>
+                                    <iframe src="<?php echo base_url();?>ecuti/suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
                                     <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $suratmasuk['nomor_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
                                 </div>
             
