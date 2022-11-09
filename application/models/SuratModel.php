@@ -3,11 +3,14 @@ class SuratModel extends CI_model
 {
     public function getAllSuratKeluar()
     {
-         return $this->db->not_like('kode_surat','SF')->get_where('surat', ['nik_pengirim' =>  $this->session->userdata('nik')])->result_array();
+         return $this->db->not_like('kode_surat','SF')
+         ->get_where('surat', ['nik_pengirim' =>  $this->session->userdata('nik')])->result_array();
     }
     public function getSuratMasuk()
     {
-         return $this->db->from('surat')->like("nik_penerima",$this->session->userdata('nik'))->get()->result_array();
+         return $this->db->from('surat')
+         ->like("nik_penerima",$this->session->userdata('nik'))
+         ->or_like("nik_disposisi",$this->session->userdata('nik'))->get()->result_array();
     }
     public function tambahSurat($kategori)
     {
@@ -31,7 +34,7 @@ class SuratModel extends CI_model
             $config['white']        = array(70,130,180); // array, default is array(0,0,0)
             $this->ciqrcode->initialize($config);
     
-            $image_name="SK" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang).'.png'; //buat name dari qr code sesuai dengan nim
+            $image_name=$this->session->userdata('nik')."_SK" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang).'.png'; //buat name dari qr code sesuai dengan nim
     
             $params['data'] = "Dikeluarkan Oleh RS. Aisyiyah Siti Fatimah Tulangan, Kabupaten/Kota Sidoarjo Ditanda Tangani Secara Elektronik Oleh ".$this->session->userdata('nama')." ID "."SK" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang); //data yang akan di jadikan QR CODE
             $params['level'] = 'H'; //H=High
@@ -43,6 +46,8 @@ class SuratModel extends CI_model
                     "kode_surat" => "SK" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang),
                     "nomor_surat" => $this->input->post("nomor_surat"),
                     "judul_surat" => $this->input->post("judul_surat"),
+                    "tanggal_surat" => $this->input->post("tanggal_surat"),
+                    "id_sifat" => $this->input->post("sifat"),
                     "nik_pengirim" => $this->session->userdata('nik'),
                     "nik_penerima" => $penerima,
                     "status" => 'Belum Dibaca',
@@ -67,9 +72,11 @@ class SuratModel extends CI_model
             $nourut = substr($db['nomor_surat'], 10, 3);
             $kodePengajuanSekarang = $nourut + 1;
             $data = [
+                "kode_surat" => "SF" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang),
                 "nomor_surat" => "SF" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang),
                 "judul_surat" => "Cuti ".$jeniscutix['jenis_cuti'],
                 "nik_pengirim" => $this->session->userdata('nik'),
+                "tanggal_surat" => date('Y-m-d'),
                 "nik_penerima" => $this->input->post("nik_pj"),
                 "status" => 'Belum Dibaca',
                 "tanggal" => date('Y-m-d H:i:s')
@@ -97,6 +104,8 @@ class SuratModel extends CI_model
                 "judul_surat" => $this->input->post("judul_surat"),
                 "nik_pengirim" => $this->session->userdata('nik'),
                 "nik_penerima" => $penerima,
+                "tanggal_surat" => $this->input->post("tanggal_surat"),
+                "id_sifat" => $this->input->post("sifat"),
                 "tanggal" => date('Y-m-d H:i:s'),
                 "lampiran" => $this->input->post("lampiran"),
                 "isi_surat" => $this->input->post("isi_surat")
@@ -122,7 +131,7 @@ class SuratModel extends CI_model
             "status" => 'Belum Dibaca',
             "tanggal" => date('Y-m-d H:i:s'),
         ];
-         $this->db->where('nomor_surat', $id);
+        $this->db->where('nomor_surat', $id);
         $this->db->update('surat', $data);
     }
        
@@ -152,6 +161,7 @@ class SuratModel extends CI_model
          if($kategori=="surat"){
             return $this->db
             ->like("nik_penerima",$this->session->userdata('nik'))
+            ->or_like("nik_disposisi",$this->session->userdata('nik'))
             ->get_where('surat', ['kode_surat' => $id])->row_array();
          }else{
         return $this->db->get_where('surat', ['nomor_surat' => $id])->row_array();
@@ -160,5 +170,21 @@ class SuratModel extends CI_model
      public function cetakSurat($id)
     {
         return $this->db->get_where('surat', ['kode_surat' => $id])->row_array();
+    }
+     public function cetakDisposisi($id)
+    {
+        return $this->db->select('surat.*, disposisi.*')
+        ->join('disposisi', 'surat.kode_surat=disposisi.kode_surat')
+        ->get_where('surat', ['surat.kode_surat' => $id])->row_array();
+    }
+    public function UpdateStatusDisposisi($id)
+    {
+        $penerima_disposisi = implode(",", $this->input->post('nik_disposisi'));
+        $data = [
+            "status" => "Disposisi",
+            "nik_disposisi" => $penerima_disposisi
+        ];
+        $this->db->where('kode_surat', $id);
+        $this->db->update('surat', $data);
     }
 }

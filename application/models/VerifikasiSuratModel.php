@@ -10,8 +10,14 @@ class VerifikasiSuratModel extends CI_model
                 "catatan" => $this->input->post("catatan"),
                 "status_verifikasi" => $this->input->post("verifikasi_surat"),
                 "qrcode" => $image_name,
+                "tanggal" => date('Y-m-d')
         ];
         $this->db->where('kode_surat', $id)->where('nik', $this->session->userdata('nik'));
         $this->db->update('verifikasi_surat', $data);
+    }
+     public function hapusVerifikasiSurat($id)
+    {
+        $this->db->where('nomor_surat', $id);
+        $this->db->delete('surat');
     }
 }

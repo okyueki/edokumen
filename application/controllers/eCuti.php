@@ -88,7 +88,7 @@ class eCuti extends CI_Controller
     public function hapuscuti($id,$kategori='cuti')
     {
         $this->CutiModel->hapusCuti($id);
-        $this->SuratModel->hapusSurat($id);
+        $this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
         redirect('ecuti');
     }

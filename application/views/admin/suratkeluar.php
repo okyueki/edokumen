@@ -60,7 +60,7 @@
                          ?>
                          </ul>
                         </td>
-                        <td><?php echo $s['tanggal']; ?></td>
+                        <td><?php echo $s['tanggal_surat']; ?></td>
                         <td><?php 
                         if($s['status']=='Sudah Dibaca'){
                             echo "<span class='badge border border-success text-success'>".$s['status']."</span>"; 

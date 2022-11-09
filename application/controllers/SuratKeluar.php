@@ -16,7 +16,9 @@ class SuratKeluar extends CI_Controller
         $this->db=$this->load->database('default', TRUE);
         $this->db2=$this->load->database('serverkhanza', TRUE);
         $this->load->model('SuratModel');
-        $this->load->model('PegawaiModel');;
+        $this->load->model('PegawaiModel');
+        $this->load->model('VerifikasiSuratModel');
+        $this->load->model('SifatModel');
     }
 
     public function index()
@@ -36,8 +38,11 @@ class SuratKeluar extends CI_Controller
         $this->form_validation->set_rules('nik_pj[]', 'Dikirim Ke', 'required');
         $this->form_validation->set_rules('isi_surat', 'Isi Surat', 'required');
         $this->form_validation->set_rules('lampiran', 'Lampiran', 'required');
+        $this->form_validation->set_rules('tanggal_surat', 'Tanggal Surat', 'required');
+        $this->form_validation->set_rules('sifat', 'Sifat', 'required');
 
         if ($this->form_validation->run() == false) {
+            $data['sifat'] = $this->SifatModel->getAllSifat();
             $data['surat'] = $this->SuratModel->getAllSuratKeluar();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
             $this->load->view('admin/_partials/header');
@@ -61,10 +66,12 @@ class SuratKeluar extends CI_Controller
         $this->form_validation->set_rules('nik_pj[]', 'Dikirim Ke', 'required');
         $this->form_validation->set_rules('isi_surat', 'Isi Surat', 'required');
         $this->form_validation->set_rules('lampiran', 'Lampiran', 'required');
-
+        $this->form_validation->set_rules('tanggal_surat', 'Tanggal Surat', 'required');
+        $this->form_validation->set_rules('sifat', 'Sifat', 'required');
 
         if ($this->form_validation->run() == false) {
             //$data['surat'] = $this->SuratModel->getAllSurat();
+             $data['sifat'] = $this->SifatModel->getAllSifat();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
@@ -80,6 +87,15 @@ class SuratKeluar extends CI_Controller
     }
     public function hapussuratkeluar($id,$kategori='surat')
     {
+        $verifx=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $id])->result_array();
+        foreach ($verifx as $vx) :
+            $path = './assets/qrcode/'.$vx['qrcode'];
+            unlink($path);
+        endforeach;
+        $this->VerifikasiSuratModel->hapusVerifikasiSurat($id);
+        $suratx=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $id])->row_array();
+        $pathxx = './assets/qrcode/'.$suratx['qrcode'];
+        unlink($pathxx);
         $this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
         redirect('suratkeluar');

@@ -24,6 +24,32 @@
                          <small class="form-text text-danger"><?php echo form_error('judul_surat');?></small>
 					</div>
 					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Tanggal Surat</label>
+						<div class="input-group date datepicker" id="datePickerExample">
+									<input type="text" class="form-control" name="tanggal_surat" value="<?php echo $surat['tanggal_surat'];?>">
+                  					<span class="input-group-text input-group-addon"><i data-feather="calendar"></i></span>
+								</div>
+                         <small class="form-text text-danger"><?php echo form_error('tanggal_surat');?></small>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Sifat</label>
+						<select class="js-example-basic-single form-select" data-width="100%" name="sifat">
+							<?php
+                                $sifatx=$this->db->get_where('sifat', ['id_sifat' =>  $surat['id_sifat']])->row_array();
+                            ?>
+                             <option value="<?php echo $sifatx['id_sifat']?>"><?php echo $sifatx['nama_sifat']?></option>
+							<?php
+								foreach ($sifat as $st) :
+							?>
+                            <option value="<?php echo $st['id_sifat']?>"><?php echo $st['nama_sifat']?></option>
+							 <?php
+                       
+                        		endforeach;
+                     		 ?>
+						</select>
+                        <small class="form-text text-danger"><?php echo form_error('sifat');?></small>
+                    </div>
+					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
 						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
 							<?php

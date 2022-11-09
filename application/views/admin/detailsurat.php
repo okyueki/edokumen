@@ -17,7 +17,10 @@
                                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Detail Data Dokumen</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">File</a>
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#surat" role="tab" aria-controls="profile" aria-selected="false">Surat</a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#disposisi" role="tab" aria-controls="profile" aria-selected="false">Disposisi</a>
                                 </li>
                                 </ul>
                                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
@@ -53,26 +56,7 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                             <div class="fw-bold">Penerima</div>
-                                                 <?php 
-                                                    $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $suratmasuk['nik_penerima']])->row_array();
-
-                                                    echo $pegawaix['nama'];
-                                                 
-                                                 ?>
-                                            </div>
-                                            
-                                        </li>
-                                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                                            <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Tanggal</div>
-                                            <?php echo $suratmasuk['tanggal'];?>
-                                            </div>
-                                           
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                                            <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Status</div>
-                                            <?php
+                                                <?php
                                                 $i=1;
                                                 foreach ($verifikasisurat as $vs) :
                                                     $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $vs['nik']])->row_array();
@@ -103,74 +87,31 @@
                                                     endforeach;
                                             ?>
                                             </div>
-                                           
+                                            
                                         </li>
-                                        </ol>
-                                        <ul class="list-group">
-                                        <li class="list-group-item">
+                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
-                                            <?php echo form_open_multipart('suratmasuk/verifikasisurat/'.$suratmasuk['kode_surat']); ?>
-                                                <div class="mb-3">
-                                                        <label for="exampleInputUsername1" class="form-label">Verifikasi Surat</label>
-                                                        <select class="js-example-basic-single form-select" data-width="100%" style="width:100%;" name="verifikasi_surat">
-                                                           <?php
-                                                              $verif=$this->db->like("nik",$this->session->userdata('nik'))->get_where('verifikasi_surat', ['kode_surat' => $suratmasuk['kode_surat']])->row_array();
-                                                           ?>
-                                                           <option value="<?php echo $verif['status_verifikasi'];?>"><?php echo $verif['status_verifikasi'];?></option>
-                                                            <option value="Disetujui">Disetujui</option>
-                                                           <option value="Ditolak">Ditolak</option>
-                                                        </select>
-                                                        <small class="form-text text-danger"><?php echo form_error('verifikasi_surat');?></small>
-                                                        
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleFormControlTextarea1" class="form-label">Catatan</label>
-                                                       <textarea class="form-control" id="exampleFormControlTextarea1" name="catatan" rows="5"><?php echo $verif['catatan'];?></textarea>
-                                                        <small class="form-text text-danger"><?php echo form_error('catatan');?></small>
-                                                        
-                                                    </div>
-                                                     <?php
-                                                        $unitx=$this->db->get_where('unit', ['id_unit' =>  $this->session->userdata('id_unit')])->row_array();
-                                                        if($unitx['nama_unit']=="Direktur"){                                      
-                                                    ?>
-                                                     <div class="mb-3">
-                                                        <label for="exampleInputUsername1" class="form-label">Disposisi</label>
-                                                       <select class="js-example-basic-multiple form-select" data-width="100%" name="nik_disposisi[]" multiple="multiple">
-                                                            <?php
-                                                                $penerima = explode(",", $suratmasuk['nik_disposisi']);
-                                                                foreach ($penerima as $p) :
-                                                                    $pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $p])->row_array();
-                                                            ?>
-                                                            <option value="<?php echo $pegawaix['nik']?>" selected><?php echo $pegawaix['nama']?></option>
-
-                                                            <?php
-                                                                endforeach;
-                                                            ?>
-                                                            <?php
-                                                                foreach ($pegawai as $p) :
-                                                            ?>
-                                                            <option value="<?php echo $p['nik']?>"><?php echo $p['nama']?></option>
-                                                            <?php
-                                                    
-                                                                endforeach;
-                                                            ?>
-                                                        </select>
-                                                        <small class="form-text text-danger"><?php echo form_error('verifikasi_surat');?></small>
-                                                        
-                                                    </div>
-                                                <?php
-                                            }
-                                        ?>
-                                                <button type="submit" class="btn btn-primary me-2">Submit</button>
-                                            <?php echo form_close(); ?>
+                                            <div class="fw-bold">Tanggal</div>
+                                            <?php echo $suratmasuk['tanggal'];?>
                                             </div>
                                            
                                         </li>
-                                    </ul>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">Status</div>
+                                            <span class='badge border border-primary text-primary'><?php echo $suratmasuk['status'];?></span>
+                                            </div>
+                                           
+                                        </li>
+                                        </ol>
                                 </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="tab-pane fade" id="surat" role="tabpanel" aria-labelledby="profile-tab">
                                     <iframe src="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
                                     <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
+                                </div>
+                                <div class="tab-pane fade" id="disposisi" role="tabpanel" aria-labelledby="profile-tab">
+                                    <iframe src="<?php echo base_url();?>suratmasuk/cetakdisposisi/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
+                                    <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>suratmasuk/cetakdisposisi/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
                                 </div>
             
                                 </div>
