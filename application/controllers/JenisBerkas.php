@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class JenisCuti extends CI_Controller
+class JenisBerkas extends CI_Controller
 {
      function __construct()
     {
@@ -14,59 +14,59 @@ class JenisCuti extends CI_Controller
         }
         //$this->load->library('form_validation');
         $this->db=$this->load->database('default', TRUE);
-        $this->load->model('JenisCutiModel');
+        $this->load->model('JenisBerkasModel');
     }
 
     public function index()
     {
-        $data['judul'] = "Jenis Cuti";
-        $data['jeniscuti'] = $this->JenisCutiModel->getAllJenisCuti();
+        $data['judul'] = "Jenis Berkas";
+        $data['jenisberkas'] = $this->JenisBerkasModel->getAllJenisBerkas();
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
-        $this->load->view('admin/jeniscuti', $data);
+        $this->load->view('admin/jenisberkas', $data);
         $this->load->view('admin/_partials/footer');
     }
-     public function tambahjeniscuti()
+     public function tambahjenisberkas()
     {
-        $data['judul'] = "Tambah Jenis Cuti";
-        $this->form_validation->set_rules('jenis_cuti', 'Nama Jenis Cuti', 'required');
+        $data['judul'] = "Tambah Jenis Berkas";
+        $this->form_validation->set_rules('jenis_berkas', 'Nama Jenis Berkas', 'required');
 
         if ($this->form_validation->run() == false) {
-            $data['jeniscuti'] = $this->JenisCutiModel->getAllJenisCuti();
+            $data['jenisberkas'] = $this->JenisBerkasModel->getAllJenisBerkas();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
-            $this->load->view('admin/tambahJenisCuti',$data);
+            $this->load->view('admin/tambahJenisBerkas',$data);
             $this->load->view('admin/_partials/footer');
         } else {
-            $this->JenisCutiModel->tambahJenisCuti();
+            $this->JenisBerkasModel->tambahJenisBerkas();
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
-            redirect('jeniscuti');
+            redirect('jenisberkas');
         }
     }
-    public function ubahjeniscuti($id)
+    public function ubahjenisberkas($id)
     {
-        $data['judul'] = "Ubah Jenis Cuti";
-        $data['jeniscuti'] = $this->JenisCutiModel->getJenisCutiById($id);
+        $data['judul'] = "Ubah Jenis Berkas";
+        $data['jenisberkas'] = $this->JenisBerkasModel->getJenisBerkasById($id);
 
-        $this->form_validation->set_rules('jenis_cuti', 'Nama Jenis Cuti', 'required');
+        $this->form_validation->set_rules('jenis_berkas', 'Nama Jenis Berkas', 'required');
 
         if ($this->form_validation->run() == false) {
-            //$data['JenisCuti'] = $this->JenisCutiModel->getAllJenisCuti();
+            //$data['JenisBerkas'] = $this->JenisBerkasModel->getAllJenisBerkas();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
-            $this->load->view('admin/ubahjeniscuti', $data);
+            $this->load->view('admin/ubahjenisberkas', $data);
            $this->load->view('admin/_partials/footer');
         } else {
             //echo "Berhasil";
-            $this->JenisCutiModel->ubahJenisCuti($id);
+            $this->JenisBerkasModel->ubahJenisBerkas($id);
             $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
-            redirect('jeniscuti');
+            redirect('jenisberkas');
         }
     }
-    public function hapusjeniscuti($id)
+    public function hapusjenisberkas($id)
     {
-        $this->JenisCutiModel->hapusJenisCuti($id);
+        $this->JenisBerkasModel->hapusJenisBerkas($id);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
-        redirect('jeniscuti');
+        redirect('jenisberkas');
     }
 }

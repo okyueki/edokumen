@@ -100,8 +100,13 @@
               <span class="link-title">eBook</span>
             </a>
           </li>
-          <?php
-          
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>berkaspegawai" class="nav-link">
+              <i class="link-icon" data-feather="file-text"></i>
+              <span class="link-title">Berkas Pegawai</span>
+            </a>
+          </li>
+          <?php      
             if($this->session->userdata('hak_akses')=="Super Admin"){
           ?>
           <li class="nav-item nav-category">User</li>
@@ -147,6 +152,12 @@
             <a href="<?php echo base_url();?>jeniscuti" class="nav-link">
               <i class="link-icon" data-feather="layers"></i>
               <span class="link-title">Jenis Cuti</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>jenisberkas" class="nav-link">
+              <i class="link-icon" data-feather="layers"></i>
+              <span class="link-title">Jenis Berkas</span>
             </a>
           </li>
           <li class="nav-item">

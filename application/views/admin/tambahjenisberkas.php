@@ -3,7 +3,7 @@
 				<nav class="page-breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url()?>dashboard">eDokumen</a></li>
-            			<li class="breadcrumb-item"><a href="<?php echo base_url();?>jeniscuti">Lamari</a></li>
+            			<li class="breadcrumb-item"><a href="<?php echo base_url();?>jenisberkas">Jenis Berkas</a></li>
 						<li class="breadcrumb-item active" aria-current="page"><?php echo $judul;?></li>
 					</ol>
 				</nav>
@@ -13,11 +13,11 @@
             <div class="card">
               <div class="card-body">
                 <h6 class="card-title mb-3"><?php echo $judul;?></h6>
-                 <?php echo form_open('jeniscuti/ubahjeniscuti/'.$jeniscuti['id_jenis_cuti']); ?>
+                 <?php echo form_open('jenisberkas/tambahjenisberkas'); ?>
                     <div class="mb-3">
-						<label for="exampleInputUsername1" class="form-label">Jenis Cuti</label>
-						<input type="text" class="form-control" name="jenis_cuti" id="exampleInputUsername1" autocomplete="off" placeholder="Jenis Cuti" value="<?php echo $jeniscuti['jenis_cuti']; ?>">
-                         <small class="form-text text-danger"><?php echo form_error('jenis_cuti') ?></small>
+						<label for="exampleInputUsername1" class="form-label">Jenis Berkas</label>
+						<input type="text" class="form-control" name="jenis_berkas" id="exampleInputUsername1" autocomplete="off" placeholder="Jenis Berkas">
+                         <small class="form-text text-danger"><?php echo form_error('jenis_berkas') ?></small>
 
                     </div>
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
