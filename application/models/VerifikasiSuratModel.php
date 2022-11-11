@@ -15,9 +15,18 @@ class VerifikasiSuratModel extends CI_model
         $this->db->where('kode_surat', $id)->where('nik', $this->session->userdata('nik'));
         $this->db->update('verifikasi_surat', $data);
     }
+    public function UpdateVerifikasiSuratDitolak($id){
+        $data = [
+                "catatan" => $this->input->post("catatan"),
+                "status_verifikasi" => $this->input->post("verifikasi_surat"),
+                "tanggal" => date('Y-m-d')
+        ];
+        $this->db->where('kode_surat', $id)->where('nik', $this->session->userdata('nik'));
+        $this->db->update('verifikasi_surat', $data);
+    }
      public function hapusVerifikasiSurat($id)
     {
-        $this->db->where('nomor_surat', $id);
-        $this->db->delete('surat');
+        $this->db->where('kode_surat', $id);
+        $this->db->delete('verifikasi_surat');
     }
 }

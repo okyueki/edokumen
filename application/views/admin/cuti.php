@@ -54,9 +54,15 @@
                         <td><?php echo $c['jumlah']; ?></td>
                         <td><span class="badge bg-primary"><?php echo $c['status']; ?></span></td>
                         <td>
-                          <a target="_blank" href="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $c['nomor_surat']?>" class="btn btn-success me-2"><i class="link-icon" data-feather="printer"></i></a>
-                          <a href="<?php echo base_url();?>ecuti/ubahcuti/<?php echo $c['nomor_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
-                          <a href="<?php echo base_url();?>ecuti/hapuscuti/<?php echo $c['nomor_surat']?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
+                          <a target="_blank" href="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $c['kode_surat']?>" class="btn btn-success me-2"><i class="link-icon" data-feather="printer"></i></a>
+                          <?php
+                            if($c['status']!="Disetujui"){
+                          ?>
+                          <a href="<?php echo base_url();?>ecuti/ubahcuti/<?php echo $c['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
+                          <a href="<?php echo base_url();?>ecuti/hapuscuti/<?php echo $c['kode_surat']?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
+                          <?php
+                            }
+                          ?>
                         </td>
                       </tr>
                       <?php

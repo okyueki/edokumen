@@ -17,7 +17,7 @@
                                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Detail Data Dokumen</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">File</a>
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Surat</a>
                                 </li>
                                 </ul>
                                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
@@ -53,26 +53,7 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                             <div class="fw-bold">Penerima</div>
-                                                 <?php 
-                                                    $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $suratmasuk['nik_penerima']])->row_array();
-
-                                                    echo $pegawaix['nama'];
-                                                 
-                                                 ?>
-                                            </div>
-                                            
-                                        </li>
-                                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                                            <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Tanggal</div>
-                                            <?php echo $suratmasuk['tanggal'];?>
-                                            </div>
-                                           
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                                            <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Status</div>
-                                            <?php
+                                                 <?php
                                                 $i=1;
                                                 foreach ($verifikasisurat as $vs) :
                                                     $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $vs['nik']])->row_array();
@@ -102,6 +83,20 @@
                                                     $i++;
                                                     endforeach;
                                             ?>
+                                            </div>
+                                            
+                                        </li>
+                                         <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Tanggal</div>
+                                            <?php echo $suratmasuk['tanggal'];?>
+                                            </div>
+                                           
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                            <div class="fw-bold">Status</div>
+                                                <?php echo $suratmasuk['status'];?> 
                                             </div>
                                            
                                         </li>
@@ -169,8 +164,21 @@
                                     </ul>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <?php
+                                        $kode_surat=substr($suratmasuk['kode_surat'],0,2);
+                                        if($kode_surat=="SK"){
+                                    ?>
                                     <iframe src="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
                                     <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
+                                   <?php
+                                        }else{
+                                    ?>
+                                    <iframe src="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
+                                    <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
+
+                                    <?php
+                                        }
+                                    ?>
                                 </div>
             
                                 </div>

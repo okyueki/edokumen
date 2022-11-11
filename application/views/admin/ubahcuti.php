@@ -13,7 +13,7 @@
             <div class="card">
               <div class="card-body">
                 <h6 class="card-title mb-3"><?php echo $judul;?></h6>
-                 <?php echo form_open_multipart('ecuti/ubahcuti/'.$cuti['nomor_surat']); ?>
+                 <?php echo form_open_multipart('ecuti/ubahcuti/'.$cuti['kode_surat']); ?>
 				  <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Jenis Cuti</label>
 						<select class="js-example-basic-single form-select" data-width="100%" name="jenis_cuti">

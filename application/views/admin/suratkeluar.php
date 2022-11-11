@@ -41,7 +41,7 @@
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
-                        <td><a href="<?php echo base_url();?>suratmasuk/detailsurat/<?php echo $s['kode_surat']?>"><?php echo $s['nomor_surat']; ?></a></td>
+                        <td><a href="<?php echo base_url();?>suratkeluar/detailsuratkeluar/<?php echo $s['kode_surat']?>"><?php echo $s['nomor_surat']; ?></a></td>
                         <td><?php echo $s['judul_surat']; ?></td>
                         <td><?php echo $pengirim['nama']; ?></td>
                         <td>

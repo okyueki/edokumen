@@ -19,6 +19,7 @@ class SuratKeluar extends CI_Controller
         $this->load->model('PegawaiModel');
         $this->load->model('VerifikasiSuratModel');
         $this->load->model('SifatModel');
+        $this->load->model('DisposisiSuratModel');
     }
 
     public function index()
@@ -51,6 +52,7 @@ class SuratKeluar extends CI_Controller
             $this->load->view('admin/_partials/footer');
         } else {
             $this->SuratModel->tambahSurat($kategori='surat');
+
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
             redirect('suratkeluar');
         }
@@ -78,11 +80,9 @@ class SuratKeluar extends CI_Controller
             $this->load->view('admin/ubahsuratkeluar', $data);
            $this->load->view('admin/_partials/footer');
         } else {
-        
             $this->SuratModel->ubahSurat($id,$kategori='surat');
             $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
             redirect('suratkeluar');
-             
         }
     }
     public function hapussuratkeluar($id,$kategori='surat')
@@ -100,7 +100,17 @@ class SuratKeluar extends CI_Controller
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
         redirect('suratkeluar');
     }
-    public function cetakSurat($id)
+    public function detailsuratkeluar($id){
+            $data['judul'] = "Detail Surat Keluar";
+            $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
+            $data['suratkeluar'] = $this->SuratModel->getDetailSuratKeluar($id);
+            $data['verifikasisurat'] = $this->VerifikasiSuratModel->getAllVerifikasi($id);
+            $this->load->view('admin/_partials/header');
+            $this->load->view('admin/_partials/navbar');
+            $this->load->view('admin/detailsuratkeluar', $data);
+            $this->load->view('admin/_partials/footer');
+    }
+    public function cetaksurat($id)
     {
         $data['cetaksurat']=$this->SuratModel->cetakSurat($id);
         $this->load->view('admin/cetaksurat', $data);

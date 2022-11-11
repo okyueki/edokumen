@@ -19,13 +19,14 @@ class eCuti extends CI_Controller
         $this->load->model('PegawaiModel');
         $this->load->model('JenisCutiModel');
         $this->load->model('SuratModel');
+        $this->load->model('VerifikasiSuratModel');
     }
 
     public function index()
     {
         $data['judul'] = "Cuti";
         $data['cuti'] = $this->CutiModel->getAllCuti();
-        $data['totalcutix'] = $this->CutiModel->getGroupByTotalCuti();
+        $data['totalcutix'] = $this->CutiModel->getGroupByTotalCutiAll();
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
         $this->load->view('admin/cuti', $data);
@@ -87,6 +88,7 @@ class eCuti extends CI_Controller
     }
     public function hapuscuti($id,$kategori='cuti')
     {
+        $this->VerifikasiSuratModel->hapusVerifikasiSurat($id);
         $this->CutiModel->hapusCuti($id);
         $this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
@@ -96,7 +98,7 @@ class eCuti extends CI_Controller
     {  
         $this->load->helper('tgl_indo_helper');
         $data['judul'] = "Cetak Cuti";
-        $data['totalcutix'] = $this->CutiModel->getGroupByTotalCuti();
+        $data['totalcutix'] = $this->CutiModel->getGroupByTotalCuti($id);
         $data['cuti']=$this->CutiModel->getCetakCutiById($id);
         $this->load->view('admin/cetakcuti', $data);
     }

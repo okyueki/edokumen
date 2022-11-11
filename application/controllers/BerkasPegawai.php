@@ -23,7 +23,6 @@ class BerkasPegawai extends CI_Controller
     {
         $data['judul'] = "Berkas Pegawai";
         $data['berkaspegawai'] = $this->BerkasPegawaiModel->getAllBerkasPegawai();
-        $data['totalberkas_pegawaix'] = $this->BerkasPegawaiModel->getGroupByTotalBerkasPegawai();
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
         $this->load->view('admin/berkaspegawai', $data);

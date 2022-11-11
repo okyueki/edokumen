@@ -12,8 +12,27 @@ class CutiModel extends CI_model
         $db = $this->db->from('surat')->like('kode_surat', $format)->order_by('kode_surat', 'DESC')->get()->row_array();
         $nourut = substr($db['nomor_surat'], 10, 3);
         $kodePengajuanSekarang = $nourut + 1;
+         $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+    
+            $config['cacheable']    = true; //boolean, the default is true
+            $config['cachedir']     = './assets/'; //string, the default is application/cache/
+            $config['errorlog']     = './assets/'; //string, the default is application/logs/
+            $config['imagedir']     = './assets/qrcode/'; //direktori penyimpanan qr code
+            $config['quality']      = true; //boolean, the default is true
+            $config['size']         = '1024'; //interger, the default is 1024
+            $config['black']        = array(224,255,255); // array, default is array(255,255,255)
+            $config['white']        = array(70,130,180); // array, default is array(0,0,0)
+            $this->ciqrcode->initialize($config);
+    
+            $image_name=$this->session->userdata('nik')."_SF" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang).'.png'; //buat name dari qr code sesuai dengan nim
+    
+            $params['data'] = "Dikeluarkan Oleh RS. Aisyiyah Siti Fatimah Tulangan, Kabupaten/Kota Sidoarjo Ditanda Tangani Secara Elektronik Oleh ".$this->session->userdata('nama')." ID "."SK" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang); //data yang akan di jadikan QR CODE
+            $params['level'] = 'H'; //H=High
+            $params['size'] = 10;
+            $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
+            $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $data = [
-            "nomor_surat" => "SF" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang),
+            "kode_surat" => "SF" . date('Ymd') . sprintf('%03s', $kodePengajuanSekarang),
             "nik" => $this->session->userdata('nik'),
             "id_jenis_cuti" => $this->input->post("jenis_cuti"),
             "alamat" => $this->input->post("alamat"),
@@ -24,6 +43,7 @@ class CutiModel extends CI_model
             "nik_pj" => $this->input->post("nik_pj"),
             "status" => 'Proses Pengajuan',
             "tanggal" => date('Y-m-d'),
+            "qrcode" => $image_name
             
         ];
         $this->db->insert('cuti', $data);
@@ -47,34 +67,40 @@ class CutiModel extends CI_model
             "tanggal" => date('Y-m-d'),
             
         ];
-        $this->db->where('nomor_surat', $id);
+        $this->db->where('kode_surat', $id);
         $this->db->update('cuti', $data);
     }
      public function hapusCuti($id)
     {
-        $this->db->where('nomor_surat', $id);
+        $this->db->where('kode_surat', $id);
         $this->db->delete('cuti');
     }
     public function getCetakCutiById($id)
     {
         return $this->db->select('cuti.*, jenis_cuti.jenis_cuti')
             ->join('jenis_cuti', 'cuti.id_jenis_cuti=jenis_cuti.id_jenis_cuti')
-            ->get_where('cuti', ['nomor_surat' => $id])->row_array();
+            ->get_where('cuti', ['kode_surat' => $id])->row_array();
     }
-    public function getGroupByTotalCuti()
+    public function getGroupByTotalCuti($id)
+    {
+        $tahun=date("Y");
+        return $this->db->select('sum(cuti.jumlah) AS totalsemuacuti, jenis_cuti.jenis_cuti AS jenis_cutix')
+            ->join('jenis_cuti', 'cuti.id_jenis_cuti=jenis_cuti.id_jenis_cuti')
+            ->like('tanggal', $tahun)->group_by('cuti.id_jenis_cuti')->get_where('cuti', ['kode_surat' => $id])->result_array();
+    }
+    public function getGroupByTotalCutiAll()
     {
         $tahun=date("Y");
         return $this->db->select('sum(cuti.jumlah) AS totalsemuacuti, jenis_cuti.jenis_cuti AS jenis_cutix')
             ->join('jenis_cuti', 'cuti.id_jenis_cuti=jenis_cuti.id_jenis_cuti')
             ->like('tanggal', $tahun)->group_by('cuti.id_jenis_cuti')->get_where('cuti', ['nik' => $this->session->userdata('nik')])->result_array();
     }
-    public function VerifikasiSurat($id,$image_name)
+    public function VerifikasiSurat($id)
     {
         $data = [
-            "status" => $this->session->userdata('verifikasi_surat'),
-            "qrcode" => $image_name,
+            "status" => $this->input->post('verifikasi_surat')
         ];
-        $this->db->where('nomor_surat', $id);
+        $this->db->where('kode_surat', $id);
         $this->db->update('cuti', $data);
     }
 }
