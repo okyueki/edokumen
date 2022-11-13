@@ -21,27 +21,27 @@
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Nik Pegawai</th>
-                        <th>Jenis Berkas</th>
-                        <th>Nama Berkas</th>
-                        <th>Nomor Berkas</th>
-                        <th>Tanggal Berlaku</th>
-                        <th>Tanggal Berlaku</th>
-                        <th>Upload Berkas</th>
-                        <th>Status Berkas</th>
+                        <th>NIK</th>
+                        <th>Nama</th>
+                        <th>Jabatan</th>
+                        <th>Bidang</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                          <?php
                             $i = 1;
-                            foreach ($berkaspegawai as $j) :
+                            foreach ($pegawai as $p) :
+                    
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
-                        <td><?php echo $j['berkas_pegawai']; ?></td>
+                        <td><?php echo $p['nik']; ?></td>
+                        <td><?php echo $p['nama']; ?></td>
+                        <td><?php echo $p['jbtn']; ?></td>
+                        <td><?php echo $p['bidang']; ?></td>
                         <td>
-                          <a href="<?php echo base_url();?>berkaspegawai/ubahberkaspegawai/<?php echo $j['id_berkaspegawai']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
-                          <a href="<?php echo base_url();?>berkaspegawai/hapusberkaspegawai/<?php echo $j['id_berkaspegawai']?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
+                          <a href="<?php echo base_url();?>berkaspegawai/ubahberkaspegawai/<?php echo $p['id']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                         </td>
                       </tr>
                       <?php

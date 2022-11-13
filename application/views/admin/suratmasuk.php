@@ -59,7 +59,7 @@
                         <td><?php echo $sm['tanggal']; ?></td>
                         <td>
                           <?php
-                            if($sm['status'] == "Disposisi" || $sm['status'] == "Selesai"){
+                            if($sm['status'] == "Disposisi"){
                           ?>
                         
                             <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>

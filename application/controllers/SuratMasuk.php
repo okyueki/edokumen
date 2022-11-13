@@ -70,8 +70,7 @@ class SuratMasuk extends CI_Controller
             $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
             $this->VerifikasiSuratModel->UpdateVerifikasiSurat($id,$image_name);
             $this->CutiModel->VerifikasiSurat($id);
-            $cek_surat=$this->db->select('kode_surat')->get_where('surat', ['kode_surat' => $id])->row_array();
-            $kode_surat=substr($cek_surat['kode_surat'],0,2);
+            $kode_surat=substr($id,0,2);
             if($kode_surat == "SF"){
                 $this->SuratModel->UpdateStatusSelesai($id);
             }
@@ -85,10 +84,10 @@ class SuratMasuk extends CI_Controller
                 $disposisix=$this->db->like('nik_disposisi_dari', $this->session->userdata('nik'))->get_where('disposisi', ['kode_surat' => $id])->row_array();
                 if(empty($disposisix)){
                     $this->DisposisiSuratModel->tambahDisposisiSurat($id,$image_name);
-                    $this->SuratModel->UpdateStatusSelesai($id);
+                    //$this->SuratModel->UpdateStatusSelesai($id);
                 }else{
                     $this->DisposisiSuratModel->updateDisposisiSurat($id,$image_name);
-                    $this->SuratModel->UpdateStatusSelesai($id);
+                    //$this->SuratModel->UpdateStatusSelesai($id);
                 }
                 $this->SuratModel->UpdateStatusDisposisi($id);
             }

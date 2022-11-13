@@ -54,7 +54,7 @@
                             <option value="Admin">Admin</option>
                             <option value="Super Admin">Super Admin</option>
                         </select>
-                         <small class="form-text text-danger"><?php echo form_error('password');?></small>
+                         <small class="form-text text-danger"><?php echo form_error('hak_akses');?></small>
                     </div>
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   <?php echo form_close(); ?>

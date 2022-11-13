@@ -46,7 +46,7 @@
                     </div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Unit Terkait</label>
-						<select class="js-example-basic-single form-select" data-width="100%" name="unit[]" multiple="multiple">
+						<select class="js-example-basic-multiple form-select" data-width="100%" name="unit[]" multiple="multiple">
 							<?php
 								foreach ($unit as $u) :
 							?>

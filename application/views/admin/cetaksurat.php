@@ -19,7 +19,7 @@
             background: #FFFFFF;
             margin: 0 auto;
             width: 210mm;
-            height: 297mm;
+            height: auto;
             padding: 0 1.5cm;        
         }
         .no-padding > tbody > tr > td{

@@ -22,6 +22,8 @@
                       <tr>
                         <th>No</th>
                         <th>Nama Jenis Berkas</th>
+                        <th>Bidang</th>
+                        <th>Masa Berlaku</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -29,10 +31,28 @@
                          <?php
                             $i = 1;
                             foreach ($jenisberkas as $j) :
+                              $bidang = explode(",", $j['bidang']);
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $j['jenis_berkas']; ?></td>
+                        <td>
+                           <ul>
+                          <?php
+                            $hitung=count($bidang);
+                            foreach ($bidang as $bx) :
+                              $bidangxx=$this->db2->get_where('bidang', ['nama' =>  $bx])->row_array();
+                            if ($hitung > 1) {
+                              echo "<li>".$bidangxx['nama']."<br></li>";
+                            }else{
+                              echo "<li>".$bidangxx['nama']."</li>";
+                            }                           
+                          endforeach;
+                          
+                         ?>
+                         </ul>
+                        </td>
+                         <td><?php echo $j['masa_berlaku']; ?></td>
                         <td>
                           <a href="<?php echo base_url();?>jenisberkas/ubahjenisberkas/<?php echo $j['id_jenis_berkas']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                           <a href="<?php echo base_url();?>jenisberkas/hapusjenisberkas/<?php echo $j['id_jenis_berkas']?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>

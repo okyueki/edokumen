@@ -66,7 +66,7 @@
                         </select>
                          <small class="form-text text-danger"><?php echo form_error('password');?></small>
                     </div>
-
+                    
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   <?php echo form_close(); ?>
                 

@@ -7,8 +7,11 @@ class JenisBerkasModel extends CI_model
     }
     public function tambahJenisBerkas()
     {
+        $bidang = implode(",", $this->input->post('bidang'));
         $data = [
             "jenis_berkas" => $this->input->post("jenis_berkas"),
+            "bidang" => $bidang,
+            "masa_berlaku" => $this->input->post("masa_berlaku")
         ];
         $this->db->insert('jenis_berkas', $data);
     }
@@ -18,8 +21,11 @@ class JenisBerkasModel extends CI_model
     }
     public function ubahJenisBerkas($id)
     {
+        $bidang = implode(",", $this->input->post('bidang'));
         $data = [
             "jenis_berkas" => $this->input->post("jenis_berkas"),
+            "bidang" => $bidang,
+            "masa_berlaku" => $this->input->post("masa_berlaku")
         ];
         $this->db->where('id_jenis_berkas', $id);
         $this->db->update('jenis_berkas', $data);

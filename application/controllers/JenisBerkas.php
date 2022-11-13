@@ -14,7 +14,9 @@ class JenisBerkas extends CI_Controller
         }
         //$this->load->library('form_validation');
         $this->db=$this->load->database('default', TRUE);
+        $this->db2=$this->load->database('serverkhanza', TRUE);
         $this->load->model('JenisBerkasModel');
+        $this->load->model('BidangModel');
     }
 
     public function index()
@@ -30,9 +32,11 @@ class JenisBerkas extends CI_Controller
     {
         $data['judul'] = "Tambah Jenis Berkas";
         $this->form_validation->set_rules('jenis_berkas', 'Nama Jenis Berkas', 'required');
-
+        $this->form_validation->set_rules('bidang[]', 'Bidang', 'required');
+        $this->form_validation->set_rules('masa_berlaku', 'Masa Belaku', 'required');
         if ($this->form_validation->run() == false) {
             $data['jenisberkas'] = $this->JenisBerkasModel->getAllJenisBerkas();
+            $data['bidang'] = $this->BidangModel->getAllBidang();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/tambahJenisBerkas',$data);
@@ -49,9 +53,12 @@ class JenisBerkas extends CI_Controller
         $data['jenisberkas'] = $this->JenisBerkasModel->getJenisBerkasById($id);
 
         $this->form_validation->set_rules('jenis_berkas', 'Nama Jenis Berkas', 'required');
-
+        $this->form_validation->set_rules('bidang[]', 'Bidang', 'required');
+        $this->form_validation->set_rules('masa_berlaku', 'Masa Belaku', 'required');
+        
         if ($this->form_validation->run() == false) {
             //$data['JenisBerkas'] = $this->JenisBerkasModel->getAllJenisBerkas();
+            $data['bidang'] = $this->BidangModel->getAllBidang();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/ubahjenisberkas', $data);
