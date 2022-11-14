@@ -33,20 +33,26 @@ class BerkasPegawai extends CI_Controller
     {
         $data['judul'] = "Tambah Berkas Pegawai";
         $data['pegawai'] = $this->PegawaiModel->getPegawaiById($id);
+        $data['berkas'] = $this->BerkasPegawaiModel->getBerkasPegawaiById($id);
+        
+        $jenisberkas=$this->db->like('bidang', $this->input->post("bidang"))->get('jenis_berkas')->result_array();
 
-        $this->form_validation->set_rules('jenis_berkas', 'Nama Jenis Berkas', 'required');
-        $this->form_validation->set_rules('kategori_berkas', 'Kategori Berkas', 'required');
+		foreach ($jenisberkas as $jb) :
+            $nama_berkas=strtolower($jb['jenis_berkas']);
+            $this->form_validation->set_rules('nomor_berkas_'.$nama_berkas.'', 'Nomor Berkas', '');
+            $this->form_validation->set_rules('file_'.$nama_berkas.'', 'File', '');
+            $this->form_validation->set_rules('status_berkas_'.$nama_berkas.'', 'Status Berkas', '');
+        endforeach;
 
         if ($this->form_validation->run() == false) {
-            
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/ubahberkaspegawai',$data);
             $this->load->view('admin/_partials/footer');
         } else {
-            $this->BerkasPegawaiModel->tambahBerkasPegawai();
+            $this->BerkasPegawaiModel->ubahBerkasPegawai($id);
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
-            redirect('jenisberkas');
+            redirect('berkaspegawai');
         }
     }
 }

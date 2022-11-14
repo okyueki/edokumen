@@ -32,7 +32,6 @@
                          <?php
                             $i = 1;
                             foreach ($pegawai as $p) :
-                    
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
@@ -41,7 +40,7 @@
                         <td><?php echo $p['jbtn']; ?></td>
                         <td><?php echo $p['bidang']; ?></td>
                         <td>
-                          <a href="<?php echo base_url();?>berkaspegawai/ubahberkaspegawai/<?php echo $p['id']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
+                          <a href="<?php echo base_url();?>berkaspegawai/ubahberkaspegawai/<?php echo $p['nik']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                         </td>
                       </tr>
                       <?php
