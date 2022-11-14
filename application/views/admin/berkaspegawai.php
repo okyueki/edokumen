@@ -15,7 +15,7 @@
                   <?php if($this->session->flashdata('sukses')){ ?>
                     <div class="alert alert-success"><i data-feather="alert-circle"></i> <?php echo $this->session->flashdata('sukses'); ?></div>
                   <?php } ?>
-                <a href="<?php echo base_url();?>berkaspegawai/tambahberkaspegawai" class="btn btn-primary me-2"><i class="link-icon" data-feather="plus-square"></i> Tambah Jenis Berkas</a>
+                <!-- <a href="<?php //echo base_url();?>berkaspegawai/tambahberkaspegawai" class="btn btn-primary me-2"><i class="link-icon" data-feather="plus-square"></i> Tambah Jenis Berkas</a> -->
                 <div class="table-responsive mt-3">
                   <table id="dataTableExample" class="table">
                     <thead>

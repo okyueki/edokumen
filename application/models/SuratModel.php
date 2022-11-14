@@ -199,8 +199,8 @@ class SuratModel extends CI_model
     }
     public function getVerifikasiSuratById($id)
     {
-        return $this->db->from('surat')->like("nik_penerima",$this->session->userdata('nik'))
-        ->or_like("nik_disposisi",$this->session->userdata('nik'))->where('kode_surat',$id)->get()->row_array();
+        return $this->db->from('surat')->where('kode_surat',$id)->like("nik_penerima",$this->session->userdata('nik'))
+        ->or_like("nik_disposisi",$this->session->userdata('nik'))->get()->row_array();
     }
      public function cetakSurat($id)
     {
