@@ -15,7 +15,7 @@ class SuratMasuk extends CI_Controller
         //$this->load->library('form_validation');
         $this->db=$this->load->database('default', TRUE);
         $this->db2=$this->load->database('serverkhanza', TRUE);
-        $this->load->model('SuratModel');
+        $this->load->model('SuratMasukModel');
         $this->load->model('PegawaiModel');
         $this->load->model('CutiModel');
         $this->load->model('VerifikasiSuratModel');
@@ -26,7 +26,12 @@ class SuratMasuk extends CI_Controller
     public function index()
     {
         $data['judul'] = "Surat Masuk";
-        $data['suratmasuk'] = $this->SuratModel->getSuratMasuk();
+        $suratmasuk=$this->db->join("surat", "surat.kode_surat=disposisi.kode_surat")->get_where("disposisi",["nik_disposisi_ke"=>$this->session->userdata('nik')])->row_array();
+        if($suratmasuk['status']=="Disposisi"){
+            $data['suratmasuk'] = $this->DisposisiSuratModel->getSuratMasukDisposisi();
+        }else{
+            $data['suratmasuk'] = $this->SuratMasukModel->getSuratMasuk();
+        }
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
         $this->load->view('admin/suratmasuk', $data);
@@ -37,11 +42,15 @@ class SuratMasuk extends CI_Controller
         $data['judul'] = "Verifikasi Surat";
         $this->form_validation->set_rules('verifikasi_surat', 'Verifikasi Surat', 'required');
         $this->form_validation->set_rules('catatan', 'Catatan', 'required');
-        $this->form_validation->set_rules('nik_disposisi[]', 'NIK', '');
+         if($this->session->userdata('nama_jabatan')!="Direktur"){
+            $this->form_validation->set_rules('nik_pj', 'NIK', '');
+         }else{
+            $this->form_validation->set_rules('nik_pj[]', 'NIK', '');
+         }
         if ($this->form_validation->run() == false) {
             //$this->SuratModel->VerifikasiSurat($id);
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
-            $data['suratmasuk'] = $this->SuratModel->getVerifikasiSuratById($id);
+            $data['suratmasuk'] = $this->SuratMasukModel->getVerifikasiSuratById($id);
             $data['verifikasisurat'] = $this->VerifikasiSuratModel->getAllVerifikasi($id);
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
@@ -69,29 +78,56 @@ class SuratMasuk extends CI_Controller
             $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
             $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
             $this->VerifikasiSuratModel->UpdateVerifikasiSurat($id,$image_name);
-            $this->CutiModel->VerifikasiSurat($id);
-            $kode_surat=substr($id,0,2);
-            if($kode_surat == "SF"){
-                $this->SuratModel->UpdateStatusSelesai($id);
-            }
+            if($this->session->userdata('nama_jabatan')!="Direktur"){
+                $this->VerifikasiSuratModel->tambahVerifikasiSurat($id);
             }else{
-                $this->CutiModel->VerifikasiSurat($id);
+                $this->SuratMasukModel->UpdateStatusSuratDisposisi($id);
+                $this->DisposisiSuratModel->tambahDisposisiSurat($id,$image_name);
+            }
+            }elseif($this->input->post("verifikasi_surat")=="Ditolak"){
                 $this->VerifikasiSuratModel->UpdateVerifikasiSuratDitolak($id);
             }
-
-            $unitx=$this->db->get_where('unit', ['id_unit' =>  $this->session->userdata('id_unit')])->row_array();
-            if($unitx['nama_unit']=="Direktur"){
-                $disposisix=$this->db->like('nik_disposisi_dari', $this->session->userdata('nik'))->get_where('disposisi', ['kode_surat' => $id])->row_array();
-                if(empty($disposisix)){
-                    $this->DisposisiSuratModel->tambahDisposisiSurat($id,$image_name);
-                    //$this->SuratModel->UpdateStatusSelesai($id);
-                }else{
-                    $this->DisposisiSuratModel->updateDisposisiSurat($id,$image_name);
-                    //$this->SuratModel->UpdateStatusSelesai($id);
-                }
-                $this->SuratModel->UpdateStatusDisposisi($id);
-            }
-            
+            $this->session->set_flashdata('sukses', 'Data Berhasil Diverifikasi');
+            redirect('suratmasuk');
+        }
+    }
+    public function disposisisurat($id)
+    {
+        $data['judul'] = "Disposisi Surat";
+        $this->form_validation->set_rules('catatan', 'Catatan', 'required');
+        $this->form_validation->set_rules('nik_pj[]', 'NIK', '');
+        if ($this->form_validation->run() == false) {
+            //$this->SuratModel->VerifikasiSurat($id);
+            $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
+            $data['suratmasuk'] = $this->SuratMasukModel->getDisposisiSuratById($id);
+            $data['disposisisurat'] = $this->DisposisiSuratModel->getAllDisposisi($id);
+            $this->load->view('admin/_partials/header');
+            $this->load->view('admin/_partials/navbar');
+            $this->load->view('admin/disposisisurat', $data);
+            $this->load->view('admin/_partials/footer');
+        }else{
+           
+            $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+    
+            $config['cacheable']    = true; //boolean, the default is true
+            $config['cachedir']     = './assets/'; //string, the default is application/cache/
+            $config['errorlog']     = './assets/'; //string, the default is application/logs/
+            $config['imagedir']     = './assets/qrcode/'; //direktori penyimpanan qr code
+            $config['quality']      = true; //boolean, the default is true
+            $config['size']         = '1024'; //interger, the default is 1024
+            $config['black']        = array(224,255,255); // array, default is array(255,255,255)
+            $config['white']        = array(70,130,180); // array, default is array(0,0,0)
+            $this->ciqrcode->initialize($config);
+    
+            $image_name=$this->session->userdata('nik')."_".$id.'.png'; //buat name dari qr code sesuai dengan nim
+    
+            $params['data'] = "Dikeluarkan Oleh RS. Aisyiyah Siti Fatimah Tulangan, Kabupaten/Kota Sidoarjo Ditanda Tangani Secara Elektronik Oleh ".$this->session->userdata('nama')." ID ".$id; //data yang akan di jadikan QR CODE
+            $params['level'] = 'H'; //H=High
+            $params['size'] = 10;
+            $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
+            $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+            $this->DisposisiSuratModel->UpdateDisposisiSurat($id,$image_name);
+            $this->DisposisiSuratModel->tambahDisposisiSurat($id,$image_name);
             $this->session->set_flashdata('sukses', 'Data Berhasil Diverifikasi');
             redirect('suratmasuk');
         }
@@ -99,7 +135,7 @@ class SuratMasuk extends CI_Controller
     public function detailsuratmasuk($id){
             $data['judul'] = "Detail Surat";
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
-            $data['suratmasuk'] = $this->SuratModel->getVerifikasiSuratById($id);
+            $data['suratmasuk'] = $this->SuratMasukModel->getVerifikasiSuratById($id);
             $data['verifikasisurat'] = $this->VerifikasiSuratModel->getAllVerifikasi($id);
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
@@ -108,7 +144,7 @@ class SuratMasuk extends CI_Controller
     }
     public function cetakdisposisi($id){
         $data['sifat'] = $this->SifatModel->getAllSifat();
-        $data['cetakdisposisi']=$this->SuratModel->cetakDisposisi($id);
+        $data['cetakdisposisi']=$this->DisposisiSuratModel->cetakDisposisi($id);
         $this->load->view('admin/cetakdisposisi', $data);
     }
 }

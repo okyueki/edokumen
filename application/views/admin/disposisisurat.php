@@ -16,25 +16,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Detail Data Dokumen</a>
                                 </li>
-                                  <?php
-                                        $kode_surat=substr($suratmasuk['kode_surat'],0,2);
-                                        if($kode_surat=="SK"){
-                                    ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#surat" role="tab" aria-controls="profile" aria-selected="false">Surat</a>
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Surat</a>
                                 </li>
-                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#disposisi" role="tab" aria-controls="profile" aria-selected="false">Disposisi</a>
-                                </li>
-                                 <?php
-                                        }else{
-                                ?>
-                                    <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#surat" role="tab" aria-controls="profile" aria-selected="false">Surat</a>
-                                </li>
-                                <?php
-                                        }
-                                ?>
                                 </ul>
                                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -69,7 +53,8 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                             <div class="fw-bold">Penerima</div>
-                                                <table class="table table-bordered">
+                                                
+                                            <table class="table table-bordered">
                                                 <?php
                                                 $verifikasi=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $suratmasuk['kode_surat']])->result_array();
                                                 foreach ($verifikasi as $v) :
@@ -79,7 +64,10 @@
                                                         <tr>
                                                             <td><?php echo $penerima['nama'];?></td>
                                                             <td><?php echo $v['status_verifikasi'];?></td>
+                                                         
+                                                        
                                                             <td> Catatan : <?php echo $v['catatan'];?></td>
+                                                        
                                                         </tr>
                                                 
                                                 <?php
@@ -93,42 +81,76 @@
                                          <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                             <div class="fw-bold">Tanggal</div>
-                                            <?php echo $suratmasuk['tanggal'];?>
+                                            <?php echo $suratmasuk['tanggal_surat'];?>
                                             </div>
                                            
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
-                                                <div class="fw-bold">Status</div>
-                                            <span class='badge border border-primary text-primary'><?php echo $suratmasuk['status'];?></span>
+                                            <div class="fw-bold">Status</div>
+                                                <?php echo $suratmasuk['status'];?> 
                                             </div>
                                            
                                         </li>
                                         </ol>
+                                        <?php
+                                                            if($this->session->userdata('nama_jabatan')=="Kabag"){
+                                                         ?>
+                                        <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div class="ms-2 me-auto">
+                                            <?php echo form_open_multipart('suratmasuk/disposisisurat/'.$suratmasuk['kode_surat']); ?>
+                                                
+                                                    <div class="mb-3">
+                                                        <label for="exampleFormControlTextarea1" class="form-label">Catatan</label>
+                                                       <textarea class="form-control" id="exampleFormControlTextarea1" name="catatan" rows="5"></textarea>
+                                                        <small class="form-text text-danger"><?php echo form_error('catatan');?></small>
+                                                        
+                                                    </div>
+                                                     <div class="mb-3">
+                                                        
+						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
+						<select class="js-example-basic-multiple form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
+							<?php
+								foreach ($pegawai as $p) :
+							?>
+                            <option value="<?php echo $p['nik']?>"><?php echo $p['nama']?></option>
+							 <?php
+                       
+                        		endforeach;
+                     		 ?>
+						</select>
+                        <small class="form-text text-danger"><?php echo form_error('nik_pj');?></small>
+                    </div>
+                    
+                                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                            <?php echo form_close(); ?>
+                                            </div>
+                                           
+                                        </li>
+                                    </ul>
+                                    <?php
+                                                            }
+                    ?>
                                 </div>
-                                <?php
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <?php
                                         $kode_surat=substr($suratmasuk['kode_surat'],0,2);
                                         if($kode_surat=="SK"){
                                     ?>
-                                <div class="tab-pane fade" id="surat" role="tabpanel" aria-labelledby="profile-tab">
                                     <iframe src="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
                                     <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
-                                </div>
-                                <div class="tab-pane fade" id="disposisi" role="tabpanel" aria-labelledby="profile-tab">
-                                    <iframe src="<?php echo base_url();?>suratmasuk/cetakdisposisi/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
-                                    <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>suratmasuk/cetakdisposisi/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
-                                </div>
-                                <?php
+                                   <?php
                                         }else{
-                                ?>
-                                    <div class="tab-pane fade" id="surat" role="tabpanel" aria-labelledby="profile-tab">
+                                    ?>
                                     <iframe src="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>
                                     <a target="_blank" class="btn btn-primary me-2" href="<?php echo base_url();?>ecuti/cetakcuti/<?php echo $suratmasuk['kode_surat']?>"><i class="link-icon" data-feather="printer"></i></a>
-            
-                                </div>
-                                <?php
+
+                                    <?php
                                         }
-                                ?>
+                                    ?>
+                                </div>
+            
                                 </div>
                             </div>
                         </div>

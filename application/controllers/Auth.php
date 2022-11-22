@@ -31,7 +31,7 @@ class Auth extends CI_Controller
         $username = $this->input->post('nik');
         $password = $this->input->post('password');
 
-        $cek_user = $this->db->join('unit', 'unit.id_unit=hak_akses.id_unit')->get_where('hak_akses', ['nik' => $username])->row_array();
+        $cek_user = $this->db->join('unit', 'unit.id_unit=hak_akses.id_unit')->join('jabatan', 'jabatan.id_jabatan=hak_akses.id_jabatan')->get_where('hak_akses', ['nik' => $username])->row_array();
         $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $username])->row_array();
 
         if ($cek_user) {
@@ -41,7 +41,8 @@ class Auth extends CI_Controller
                 'nik' => $pegawaix['nik'],
                 'hak_akses' => $cek_user['hak_akses'],
                 'jk' => $pegawaix['jk'],
-                'id_unit' => $cek_user['id_unit']
+                'id_unit' => $cek_user['id_unit'],
+                'nama_jabatan' => $cek_user['nama_jabatan']
             ];
             $this->session->set_userdata($data);
             redirect('dashboard');

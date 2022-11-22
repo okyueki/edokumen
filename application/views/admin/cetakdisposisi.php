@@ -113,28 +113,22 @@
                             <td style="text-align: center;">Tanggal</td>
                         </tr>
                    
-                        <tr>
-                            
-                            <td>
-                                <ol>
-                             <?php
-                            $penerima = explode(",", $cetakdisposisi['nik_disposisi_ke']);
-                            $hitung=count($penerima);
+                        
+                            <?php
+                            $penerima=$this->db->select('disposisi.*')
+                                    ->join('disposisi', 'surat.kode_surat=disposisi.kode_surat')
+                                    ->get_where('surat', ['surat.kode_surat' =>  $cetakdisposisi['kode_surat']])->result_array();
                             foreach ($penerima as $p) :
-                            $penerimax=$this->db2->get_where('pegawai', ['nik' =>  $p])->row_array();
-                            ?>
-                            
-                                <li><?php echo $penerimax['nama']?></li>
-                            
-                            
-                             <?php
+                            $penerimax=$this->db2->get_where('pegawai', ['nik' =>  $p['nik_disposisi_ke']])->row_array();
+                            ?><tr>
+                            <td><?php echo $penerimax['nama']?></td>
+                            <td style="text-align: center;"colspan="2"><?php echo $p['catatan_disposisi']?></td>
+                            <td style="text-align: center;"><?php echo $p['tanggal_disposisi']?></td>
+                            </tr>
+                            <?php
                         endforeach;
                     ?>    
-                    </ol>
-                        </td>
-                            <td style="text-align: center;" rowspan="<?php echo $hitung;?>" colspan="2"><?php echo $cetakdisposisi['catatan_disposisi']?></td>
-                            <td style="text-align: center;" rowspan="<?php echo $hitung;?>"><?php echo $cetakdisposisi['tanggal_disposisi']?></td>
-                        </tr>
+                        
                    
                     </table>                   
                 </div>

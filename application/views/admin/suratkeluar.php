@@ -35,9 +35,7 @@
                          <?php
                             $i = 1;
                             foreach ($surat as $s) :
-                                $pengirim=$this->db2->get_where('pegawai', ['nik' =>  $s['nik_pengirim']])->row_array();
-                                $penerima = explode(",", $s['nik_penerima']);
-                                //print_r($penerima);
+                                $pengirim=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $s['nik_pengirim']])->row_array();
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
@@ -47,18 +45,14 @@
                         <td>
                           <ul>
                           <?php
-                            $hitung=count($penerima);
-                            foreach ($penerima as $p) :
-                              $penerima=$this->db2->get_where('pegawai', ['nik' =>  $p])->row_array();
-                            if ($hitung > 1) {
-                              echo "<li>".$penerima['nama']."<br></li>";
-                            }else{
-                              echo "<li>".$penerima['nama']."</li>";
-                            }                           
-                          endforeach;
+                              $verifikasi=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $s['kode_surat']])->result_array();
+                              foreach ($verifikasi as $v) :
+                                $penerima=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $v['nik_penerima']])->row_array();
+                               echo "<li>".$penerima['nama']."  <span class='badge border border-success text-success'>".$v['status_verifikasi']."</span></li>";
+                              endforeach;
                           
                          ?>
-                         </ul>
+                         </ul> 
                         </td>
                         <td><?php echo $s['tanggal_surat']; ?></td>
                         <td><?php 

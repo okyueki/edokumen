@@ -51,17 +51,13 @@
                     </div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
-						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
+						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj">
 							<?php
-								$penerima = explode(",", $surat['nik_penerima']);
-								foreach ($penerima as $p) :
-									 $pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $p])->row_array();
+								$verifikasi=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $surat['kode_surat']])->row_array();
+								$pegawaix=$this->db2->select('nik,nama')->get_where('pegawai', ['nik' =>  $verifikasi['nik_penerima']])->row_array();
 							?>
                              <option value="<?php echo $pegawaix['nik']?>" selected><?php echo $pegawaix['nama']?></option>
 
-							<?php
-							 	endforeach;
-							?>
 							<?php
 								foreach ($pegawai as $p) :
 							?>

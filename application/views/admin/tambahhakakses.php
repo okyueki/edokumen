@@ -47,6 +47,20 @@
 						</select>
                          <small class="form-text text-danger"><?php echo form_error('unit');?></small>
                     </div>
+					<div class="mb-3">
+						<label for="exampleInputUsername1" class="form-label">Jabatan</label>
+						 <select class="js-example-basic-single form-select" data-width="100%" name="jabatan">
+							<?php
+								foreach ($jabatan as $jb) :
+							?>
+                            <option value="<?php echo $jb['id_jabatan']?>"><?php echo $jb['nama_jabatan']?></option>
+							 <?php
+                       
+                        		endforeach;
+                     		 ?>
+						</select>
+                         <small class="form-text text-danger"><?php echo form_error('unit');?></small>
+                    </div>
                     <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Hak Akses</label>
 						 <select class="js-example-basic-single form-select" data-width="100%" name="hak_akses">

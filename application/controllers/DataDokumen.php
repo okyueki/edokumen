@@ -116,15 +116,17 @@ class DataDokumen extends CI_Controller
 
             $this->upload->initialize($config);
 
-            if(empty($_FILES['file'])){
+            if(empty($_FILES['file']['name'])){
                 $filename = ""; 
                 $this->DokumenModel->ubahDokumen($id,$filename);
                 $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
                 redirect('datadokumen');
-            }elseif(!empty($_FILES['file'])){
+            }elseif(!empty($_FILES['file']['name'])){
                 $this->upload->do_upload('file');
                 $uploadData = $this->upload->data(); 
                 $filename = $uploadData['file_name'];
+                $path = './uploads/dokumen/'.$this->input->post("oldfile");
+                unlink($path);
                 $this->DokumenModel->ubahDokumen($id,$filename);
                 $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
                 redirect('datadokumen');

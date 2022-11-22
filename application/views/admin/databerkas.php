@@ -1,18 +1,65 @@
 <div class="page-content">
 
-				<nav class="page-breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?php echo base_url()?>dashboard">eDokumen</a></li>
-            			<li class="breadcrumb-item"><a href="<?php echo base_url();?>berkaspegawai">Berkas Pegawai</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><?php echo $judul;?></li>
-					</ol>
-				</nav>
+	<nav class="page-breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="<?php echo base_url()?>dashboard">eDokumen</a></li>
+			<li class="breadcrumb-item active" aria-current="page"><?php echo $judul;?></li>
+		</ol>
+	</nav>
 
-				<div class="row">
-					<div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h6 class="card-title mb-3"><?php echo $judul;?></h6>
+	<div class="row">
+		<div class="col-12 grid-margin">
+			<div class="card">
+				<div class="position-relative">
+					<figure class="overflow-hidden mb-0 d-flex justify-content-center">
+						<img src="<?php echo base_url(); ?>assets/images/bgprofil.jpg" class="rounded-top" alt="profile cover">
+					</figure>
+					<div
+						class="d-flex justify-content-between align-items-center position-absolute top-90 w-100 px-2 px-md-4 mt-n4">
+						<div>
+							<img class="wd-70 rounded-circle"
+								src="<?php echo 'http://192.168.10.200/webapps2/penggajian/'.$pegawai['photo'];?>" alt="profile">
+							<span class="h4 ms-3 text-dark"><?php echo $pegawai['nama']; ?></span>
+						</div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center p-3 rounded-bottom">
+					<ul class="d-flex align-items-center m-0 p-0">
+						<li class="d-flex align-items-center">
+							<i class="me-1 icon-md " data-feather="columns"></i>
+							<a class="pt-1px d-none d-md-block text-body" href="<?php echo base_url()?>profil">My Information</a>
+						</li>
+						<li class="ms-3 ps-3 border-start d-flex align-items-center active">
+							<i class="me-1 icon-md text-primary" data-feather="user"></i>
+							<a class="pt-1px d-none d-md-block  text-primary" href="<?php echo base_url()?>profil/databerkas">Data Berkas</a>
+						</li>
+						<li class="ms-3 ps-3 border-start d-flex align-items-center">
+							<i class="me-1 icon-md" data-feather="users"></i>
+							<a class="pt-1px d-none d-md-block text-body" href="#">Friends <span
+									class="text-muted tx-12">3,765</span></a>
+						</li>
+						<li class="ms-3 ps-3 border-start d-flex align-items-center">
+							<i class="me-1 icon-md" data-feather="image"></i>
+							<a class="pt-1px d-none d-md-block text-body" href="#">Photos</a>
+						</li>
+						<li class="ms-3 ps-3 border-start d-flex align-items-center">
+							<i class="me-1 icon-md" data-feather="video"></i>
+							<a class="pt-1px d-none d-md-block text-body" href="#">Videos</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row profile-body">
+
+		<!-- middle wrapper start -->
+		<div class="row">
+			<div class="position-relative">
+				<div class="card rounded">
+					<div class="card-header">
+						<div class="card-body">
+							<h6 class="card-title mb-3"><?php echo $judul;?></h6>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Berkas</a>
@@ -24,7 +71,7 @@
 </ul>
 <div class="tab-content border border-top-0 p-3" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                 <?php echo form_open_multipart('berkaspegawai/ubahberkaspegawai/'.$pegawai['nik']); ?>
+               
                     <div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Nama Pegawai</label>
 						<select class="js-example-basic-single form-select" data-width="100%" name="nik">
@@ -61,18 +108,15 @@
                         <div class="accordion-body">
                         <div class="mb-3">
 						    <label for="exampleInputUsername1" class="form-label">Nomor Berkas</label>
-						    <input type="text" class="form-control" name="nomor_berkas<?php echo $jb['id_jenis_berkas'];?>" id="exampleInputUsername1" autocomplete="off" placeholder="Nama Berkas" value="<?php echo $berkas['nomor_berkas'];?>">
+
+						    <input type="text" class="form-control" name="nomor_berkas<?php echo $jb['id_jenis_berkas'];?>" id="exampleInputUsername1" autocomplete="off" placeholder="Nama Berkas" value="<?php echo $berkas['nomor_berkas'];?>" readonly>
                             <small class="form-text text-danger"><?php echo form_error('nomor_berkas'.$jb['id_jenis_berkas'].'') ?></small>
 
                         </div>
                         <div class="mb-3">
                             <div class="row">
                                 <label for="exampleInputUsername1" class="form-label">File</label>
-                                <div class="col-6">
-                                    
-                                    <input class="form-control" type="file" name="file<?php echo $jb['id_jenis_berkas'];?>">
-                                    <small class="form-text text-danger"><?php echo form_error('file'.$jb['id_jenis_berkas'].'') ?></small>
-                                </div>
+                              
                                 <div class="col-6">
                                      <?php
                                         if($berkas['file']!=""){    
@@ -95,9 +139,6 @@
                             <?php
                                 }
                                 ?>
-                            <option value="Masih Berlaku">Masih Berlaku</option>
-                            <option value="Tidak Berlaku">Tidak Berlaku</option>
-                            <option value="Proses Pengajuan">Proses Pengajuan</option>
 
 						</select>
                         <small class="form-text text-danger"><?php echo form_error('status_berkas'.$jb['id_jenis_berkas'].'') ?></small>
@@ -109,7 +150,7 @@
                         <div class="mb-3">
 						    <label for="exampleInputUsername1" class="form-label">Tanggal Awal</label>
                             <div class="input-group date datepicker"id="datePickerExample1">
-										<input type="text" class="form-control" name="tanggal_awal<?php echo $jb['id_jenis_berkas'];?>" autocomplete="off"/>
+										<input type="text" class="form-control" name="tanggal_awal<?php echo $jb['id_jenis_berkas'];?>" autocomplete="off" readonly/>
 										<span class="input-group-text input-group-addon"
 											><i data-feather="calendar"></i
 										></span>
@@ -120,7 +161,7 @@
                         <div class="mb-3">
 						    <label for="exampleInputUsername1" class="form-label">Tanggal Akhir</label>
                             <div class="input-group date datepicker"id="datePickerExample1">
-										<input type="text" class="form-control" name="tanggal_akhir<?php echo $jb['id_jenis_berkas'];?>" autocomplete="off"/>
+										<input type="text" class="form-control" name="tanggal_akhir<?php echo $jb['id_jenis_berkas'];?>" autocomplete="off" readonly/>
 										<span class="input-group-text input-group-addon"
 											><i data-feather="calendar"></i
 										></span>
@@ -141,16 +182,14 @@
                      		 ?>
                    </div>
                    </div>
-                     
-                    <button type="submit" class="btn btn-primary me-2">Submit</button>
-                  <?php echo form_close(); ?>
+  
   </div>
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
   <?php if($this->session->flashdata('sukses')){ ?>
                     <div class="alert alert-success"><i data-feather="alert-circle"></i> <?php echo $this->session->flashdata('sukses'); ?></div>
                   <?php } ?>
-                <a href="<?php echo base_url();?>sertifikat/tambahsertifikat/<?php echo $pegawai['nik']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="plus-square"></i> Tambah Sertifikat</a>
+                
                 <div class="table-responsive mt-3">
                   <table id="dataTableExample" class="table">
                     <thead>
@@ -161,7 +200,7 @@
                         <th>Tanggal Pelaksanaan</th>
                         <th>Tempat Pelaksanaan</th>
                         <th>File</th>
-                        <th>Action</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -184,10 +223,6 @@
                             }
                           ?>
                         </td>
-                        <td>
-                          <a href="<?php echo base_url();?>sertifikat/ubahsertifikat/<?php echo $s['id_sertifikat']?>/<?php echo $s['nik_pegawai']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
-                          <a href="<?php echo base_url();?>sertifikat/hapussertifikat/<?php echo $s['id_sertifikat']?>/<?php echo $s['nik_pegawai']?>"  onclick="return confirm('Apa anda yakin ingin menghapus data ini?')"class="btn btn-danger me-2"><i class="link-icon" data-feather="trash-2"></i></a>
-                        </td>
                       </tr>
                       <?php
                         $i++;
@@ -198,8 +233,8 @@
   </div>
 </div>
               </div>
-            </div>
+						</div>
 					</div>
 				</div>
-
+				<!-- middle wrapper end -->
 			</div>

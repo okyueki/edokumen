@@ -13,4 +13,5 @@ class PegawaiModel extends CI_model
     {
         return $this->db2->select('id,nik,nama,jk,jbtn,tmp_lahir,tgl_lahir,alamat,stts_aktif,bidang')->get_where('pegawai', ['nik' => $id])->row_array();
     }
+
 }

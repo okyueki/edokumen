@@ -128,6 +128,12 @@
               <span class="link-title">Unit</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>jabatan" class="nav-link">
+              <i class="link-icon" data-feather="grid"></i>
+              <span class="link-title">Jabatan</span>
+            </a>
+          </li>
           <li class="nav-item nav-category">Penyimpanan Dokumen</li>
           <li class="nav-item">
             <a href="<?php echo base_url();?>lemari" class="nav-link">

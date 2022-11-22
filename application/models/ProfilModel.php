@@ -7,4 +7,5 @@ class ProfilModel extends CI_model
         ->join('departemen', 'departemen.dep_id=pegawai.departemen')
         ->join('petugas','petugas.nip=pegawai.nik')->get_where('pegawai', ['nik' => $this->session->userdata('nik')])->row_array();
     }
+    
 }

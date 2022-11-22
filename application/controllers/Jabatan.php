@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Unit extends CI_Controller
+class Jabatan extends CI_Controller
 {
      function __construct()
     {
@@ -14,59 +14,59 @@ class Unit extends CI_Controller
         }
         //$this->load->library('form_validation');
         $this->db=$this->load->database('default', TRUE);
-        $this->load->model('UnitModel');
+        $this->load->model('JabatanModel');
     }
 
     public function index()
     {
-        $data['judul'] = "Unit";
-        $data['unit'] = $this->UnitModel->getAllUnit();
+        $data['judul'] = "Jabatan";
+        $data['jabatan'] = $this->JabatanModel->getAllJabatan();
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
-        $this->load->view('admin/unit', $data);
+        $this->load->view('admin/jabatan', $data);
         $this->load->view('admin/_partials/footer');
     }
-     public function tambahunit()
+     public function tambahjabatan()
     {
-        $data['judul'] = "Tambah Unit";
-        $this->form_validation->set_rules('nama_unit', 'Nama Unit', 'required');
+        $data['judul'] = "Tambah Jabatan";
+        $this->form_validation->set_rules('nama_jabatan', 'Nama Jabatan', 'required');
 
         if ($this->form_validation->run() == false) {
-            //$data['unit'] = $this->UnitModel->getAllUnit();
+            //$data['Jabatan'] = $this->JabatanModel->getAllJabatan();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
-            $this->load->view('admin/tambahunit',$data);
+            $this->load->view('admin/tambahjabatan',$data);
             $this->load->view('admin/_partials/footer');
         } else {
-            $this->UnitModel->tambahunit();
+            $this->JabatanModel->tambahJabatan();
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
-            redirect('unit');
+            redirect('jabatan');
         }
     }
-    public function ubahunit($id)
+    public function ubahJabatan($id)
     {
-        $data['judul'] = "Ubah Unit";
-        $data['unit'] = $this->UnitModel->getUnitById($id);
+        $data['judul'] = "Ubah Jabatan";
+        $data['jabatan'] = $this->JabatanModel->getJabatanById($id);
 
-        $this->form_validation->set_rules('nama_unit', 'Nama Unit', 'required');
+        $this->form_validation->set_rules('nama_jabatan', 'Nama Jabatan', 'required');
 
         if ($this->form_validation->run() == false) {
-            //$data['Unit'] = $this->UnitModel->getAllUnit();
+            //$data['Jabatan'] = $this->JabatanModel->getAllJabatan();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
-            $this->load->view('admin/ubahunit', $data);
+            $this->load->view('admin/ubahjabatan', $data);
            $this->load->view('admin/_partials/footer');
         } else {
             //echo "Berhasil";
-            $this->UnitModel->ubahUnit($id);
+            $this->JabatanModel->ubahJabatan($id);
             $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
-            redirect('unit');
+            redirect('jabatan');
         }
     }
-    public function hapusunit($id)
+    public function hapusJabatan($id)
     {
-        $this->UnitModel->hapusunit($id);
+        $this->JabatanModel->hapusJabatan($id);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
-        redirect('unit');
+        redirect('jabatan');
     }
 }

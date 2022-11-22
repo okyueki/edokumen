@@ -120,7 +120,7 @@
                         echo $unit['nama_unit']." ";
                     ?>    
                     RS ’Aisyiyah Siti Fatimah</strong></p>
-                    <img style="width:128px; height:auto; border-radius:0;" src="<?php echo base_url();?>assets/qrcode/<?php echo $cetaksurat['qrcode'];?>" alt="">
+                    <img style="width:128px; height:auto; border-radius:0;" src="<?php echo base_url();?>assets/qrcode/<?php echo $cetaksurat['qrcode_surat'];?>" alt="">
                     <p style="font-size: 12.0pt;"><u><strong><?php
                         $pegawaixy=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $cetaksurat['nik_pengirim']])->row_array();
                          echo $pegawaixy['nama'];

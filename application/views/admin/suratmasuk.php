@@ -20,6 +20,7 @@
                     <thead>
                       <tr>
                         <th>No</th>
+                        <th>Nomor Surat</th>
                         <th>Judul Surat</th>
                         <th>Pengirim</th>
                         <th>Penerima</th>
@@ -33,43 +34,50 @@
                             $i = 1;
                             foreach ($suratmasuk as $sm) :
                                 $pengirim=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $sm['nik_pengirim']])->row_array();
-                                $penerima = explode(",", $sm['nik_penerima']);
-                                $nik_disposisi = explode(",", $sm['nik_disposisi']);
                               
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
+                        <td><?php echo $sm['nomor_surat']; ?></td>
                         <td><?php echo $sm['judul_surat']; ?></td>
                         <td><?php echo $pengirim['nama']; ?></td>
-                        <td><ul>
+                        <td> <ul>
                           <?php
-                            $hitung=count($penerima);
-                            foreach ($penerima as $p) :
-                              $penerima=$this->db2->get_where('pegawai', ['nik' =>  $p])->row_array();
-                            if ($hitung > 1) {
-                              echo "<li>".$penerima['nama']."<br></li>";
-                            }else{
-                              echo "<li>".$penerima['nama']."</li>";
-                            }                           
-                          endforeach;
+                              $verifikasi=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $sm['kode_surat']])->result_array();
+                              foreach ($verifikasi as $v) :
+                                $penerima=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $v['nik_penerima']])->row_array();
+                               echo "<li>".$penerima['nama']."  <span class='badge border border-success text-success'>".$v['status_verifikasi']."</span></li>";
+                              endforeach;
                           
                          ?>
-                         </ul></td>
+                         </ul> </td>
                          <td><span class="badge border border-success text-success"> <?php echo $sm['status'];?></span></td>
-                        <td><?php echo $sm['tanggal']; ?></td>
+                        <td><?php echo $sm['tanggal_surat']; ?></td>
                         <td>
                           <?php
                             if($sm['status'] == "Disposisi"){
+                              if($sm['status_disposisi']=="Sudah"){
                           ?>
-                        
-                            <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
-                            
+                           <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
+                          <?php
+                            }else{
+                          ?>
+                            <a href="<?php echo base_url();?>suratmasuk/disposisisurat/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
+                          <?php
+                            }
+                          ?>
                           <?php
                          
                           }else{
+                            if ($sm['status_verifikasi']=="Distetujui"){
+                          ?>
+                          <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
+                          <?php
+                            }else{
                           ?>
                           <a href="<?php echo base_url();?>suratmasuk/verifikasisurat/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                             <?php
+                            }
                             }
                             ?>
                         </td>

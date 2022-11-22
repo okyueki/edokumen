@@ -9,10 +9,10 @@ class VerifikasiSuratModel extends CI_model
         $data = [
                 "catatan" => $this->input->post("catatan"),
                 "status_verifikasi" => $this->input->post("verifikasi_surat"),
-                "qrcode" => $image_name,
+                "qrcode_verifikasi_surat" => $image_name,
                 "tanggal" => date('Y-m-d')
         ];
-        $this->db->where('kode_surat', $id)->where('nik', $this->session->userdata('nik'));
+        $this->db->where('kode_surat', $id)->where('nik_penerima', $this->session->userdata('nik'));
         $this->db->update('verifikasi_surat', $data);
     }
     public function UpdateVerifikasiSuratDitolak($id){
@@ -24,7 +24,15 @@ class VerifikasiSuratModel extends CI_model
         $this->db->where('kode_surat', $id)->where('nik', $this->session->userdata('nik'));
         $this->db->update('verifikasi_surat', $data);
     }
-     public function hapusVerifikasiSurat($id)
+    public function tambahVerifikasiSurat($id){
+        $data = [
+                "kode_surat" => $id,
+                "nik_penerima" => $this->input->post('nik_pj'),
+                "status_verifikasi" => "Proses Verifikasi"
+            ];
+            $this->db->insert('verifikasi_surat', $data);
+    }
+    public function hapusVerifikasiSurat($id)
     {
         $this->db->where('kode_surat', $id);
         $this->db->delete('verifikasi_surat');

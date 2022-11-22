@@ -48,7 +48,7 @@
                     </div>
 					<div class="mb-3">
 						<label for="exampleInputUsername1" class="form-label">Dikirim Ke</label>
-						<select class="js-example-basic-multiple form-select" data-width="100%" name="nik_pj[]" multiple="multiple">
+						<select class="js-example-basic-single form-select" data-width="100%" name="nik_pj">
 							<?php
 								foreach ($pegawai as $p) :
 							?>

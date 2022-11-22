@@ -18,6 +18,7 @@ class HakAkses extends CI_Controller
         $this->load->model('HakAksesModel');
         $this->load->model('PegawaiModel');
         $this->load->model('UnitModel');
+        $this->load->model('JabatanModel');
     }
 
     public function index()
@@ -41,6 +42,7 @@ class HakAkses extends CI_Controller
             $data['hakakses'] = $this->HakAksesModel->getAllHakAkses();
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
             $data['unit'] = $this->UnitModel->getAllUnit();
+            $data['jabatan'] = $this->JabatanModel->getAllJabatan();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/tambahhakakses',$data);
@@ -63,6 +65,7 @@ class HakAkses extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $data['unit'] = $this->UnitModel->getAllUnit();
+            $data['jabatan'] = $this->JabatanModel->getAllJabatan();
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/ubahhakakses', $data);

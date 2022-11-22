@@ -56,36 +56,27 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                             <div class="fw-bold">Penerima</div>
+                                              <table class="table table-bordered">
                                                 <?php
-                                                $i=1;
-                                                foreach ($verifikasisurat as $vs) :
-                                                    $pegawaix=$this->db2->get_where('pegawai', ['nik' =>  $vs['nik']])->row_array();
-                                                     if($vs['status_verifikasi']=="Proses Verifikasi"){
-                                                        echo $pegawaix['nama']." : ". "<span class='badge border border-primary text-primary'>".$vs['status_verifikasi']."</span> ";
-                                                     }elseif($vs['status_verifikasi']=="Disetujui"){
-                                                        echo $pegawaix['nama']." : ". "<span style='cursor:pointer' data-bs-toggle='modal' data-bs-target='#exampleModal".$i."' class='badge border border-success text-success'>".$vs['status_verifikasi']."</span> ";
-                                                     }else{
-                                                        echo $pegawaix['nama']." : ". "<span style='cursor:pointer' data-bs-toggle='modal' data-bs-target='#exampleModal".$i."' class='badge border border-danger text-danger'>".$vs['status_verifikasi']."</span> ";
-                                                     }
-                                                     
-                                            ?>
-                                            <div class="modal fade" id="exampleModal<?php echo $i;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Catatan</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <?php echo $vs['catatan'];?>
-                                                </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <?php
-                                                    $i++;
-                                                    endforeach;
-                                            ?>
+                              $verifikasi=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $suratkeluar['kode_surat']])->result_array();
+                              foreach ($verifikasi as $v) :
+                                $penerima=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $v['nik_penerima']])->row_array();
+                               ?>
+                              
+                                    <tr>
+                                        <td><?php echo $penerima['nama'];?></td>
+                                        <td><?php echo $v['status_verifikasi'];?></td>
+                                        
+                                        <td> Catatan : <?php echo $v['catatan'];?></td>
+                                       
+                                     
+                                    </tr>
+                               
+                            <?php
+                              endforeach;
+                          
+                         ?>
+                          </table>
                                             </div>
                                             
                                         </li>
