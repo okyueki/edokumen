@@ -41,4 +41,22 @@ class LihatDokumen extends CI_Controller
         $this->load->view('admin/pedoman', $data);
         $this->load->view('admin/_partials/footer');
     }
+     public function panduan()
+    {
+        $data['judul'] = "Data Panduan";
+        $data['dokumen'] = $this->DokumenModel->getAllPanduan();
+        $this->load->view('admin/_partials/header');
+        $this->load->view('admin/_partials/navbar');
+        $this->load->view('admin/panduan', $data);
+        $this->load->view('admin/_partials/footer');
+    }
+     public function peraturan()
+    {
+        $data['judul'] = "Data Peraturan";
+        $data['dokumen'] = $this->DokumenModel->getAllPeraturan();
+        $this->load->view('admin/_partials/header');
+        $this->load->view('admin/_partials/navbar');
+        $this->load->view('admin/peraturan', $data);
+        $this->load->view('admin/_partials/footer');
+    }
 }

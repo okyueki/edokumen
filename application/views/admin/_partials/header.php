@@ -74,7 +74,15 @@
             </a>
           </li>
           <li class="nav-item nav-category">Dokumen</li>
-          <li class="nav-item">
+           <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#dokumen" role="button" aria-expanded="false" aria-controls="emails">
+              <i class="link-icon" data-feather="mail"></i>
+              <span class="link-title">Dokumen</span>
+              <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse" id="dokumen">
+              <ul class="nav sub-menu">
+                <li class="nav-item">
             <a href="<?php echo base_url();?>lihatdokumen/spo" class="nav-link">
               <i class="link-icon" data-feather="file-text"></i>
               <span class="link-title">SPO</span>
@@ -85,8 +93,24 @@
               <i class="link-icon" data-feather="file-text"></i>
               <span class="link-title">Pedoman</span>
             </a>
-          </li>    
-
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>lihatdokumen/panduan" class="nav-link">
+              <i class="link-icon" data-feather="file-text"></i>
+              <span class="link-title">Panduan</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>lihatdokumen/Peraturan" class="nav-link">
+              <i class="link-icon" data-feather="file-text"></i>
+              <span class="link-title">Peraturan</span>
+            </a>
+          </li>
+              </ul>
+            </div>
+          </li>
+          
+          
           <li class="nav-item nav-category">Master</li>
           <li class="nav-item">
             <a href="<?php echo base_url();?>datadokumen" class="nav-link">

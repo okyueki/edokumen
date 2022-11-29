@@ -104,4 +104,20 @@ class DokumenModel extends CI_model
             ->join('unit', 'dokumen.id_unit=unit.id_unit')
             ->join('jenis_dokumen', 'dokumen.id_jenis_dokumen=jenis_dokumen.id_jenis_dokumen')->like("jenis_dokumen.jenis_dokumen","Pedoman")->like("unit.id_unit",$this->session->userdata('id_unit'))->get()->result_array(); 
     }
+     public function getAllPanduan()
+    {
+        return $this->db->select('dokumen.*, lemari.nama_lemari,rak.nama_rak, jenis_dokumen.jenis_dokumen, jenis_dokumen.sifat_dokumen, unit.nama_unit')->from('dokumen')
+            ->join('lemari', 'dokumen.id_lemari=lemari.id_lemari')
+            ->join('rak', 'dokumen.id_rak=rak.id_rak')
+            ->join('unit', 'dokumen.id_unit=unit.id_unit')
+            ->join('jenis_dokumen', 'dokumen.id_jenis_dokumen=jenis_dokumen.id_jenis_dokumen')->like("jenis_dokumen.jenis_dokumen","Panduan")->like("unit.id_unit",$this->session->userdata('id_unit'))->get()->result_array(); 
+    }
+    public function getAllPeraturan()
+    {
+        return $this->db->select('dokumen.*, lemari.nama_lemari,rak.nama_rak, jenis_dokumen.jenis_dokumen, jenis_dokumen.sifat_dokumen, unit.nama_unit')->from('dokumen')
+            ->join('lemari', 'dokumen.id_lemari=lemari.id_lemari')
+            ->join('rak', 'dokumen.id_rak=rak.id_rak')
+            ->join('unit', 'dokumen.id_unit=unit.id_unit')
+            ->join('jenis_dokumen', 'dokumen.id_jenis_dokumen=jenis_dokumen.id_jenis_dokumen')->like("jenis_dokumen.jenis_dokumen","Peraturan")->like("unit.id_unit",$this->session->userdata('id_unit'))->get()->result_array(); 
+    }
 }

@@ -26,14 +26,9 @@ class SuratMasuk extends CI_Controller
     public function index()
     {
         $data['judul'] = "Surat Masuk";
-        $suratmasuk=$this->db->join("surat", "surat.kode_surat=disposisi.kode_surat")->get_where("disposisi",["nik_disposisi_ke"=>$this->session->userdata('nik')])->row_array();
-        if($suratmasuk['status']=="Disposisi"){
-            $data['suratmasuk'] = $this->DisposisiSuratModel->getSuratMasukDisposisi();
-        }else{
-            $data['suratmasuk'] = $this->SuratMasukModel->getSuratMasuk();
-        }
         $this->load->view('admin/_partials/header');
         $this->load->view('admin/_partials/navbar');
+        $data['suratmasuk'] = $this->SuratMasukModel->getAllSurat();
         $this->load->view('admin/suratmasuk', $data);
         $this->load->view('admin/_partials/footer');
     }
@@ -94,6 +89,7 @@ class SuratMasuk extends CI_Controller
     public function disposisisurat($id)
     {
         $data['judul'] = "Disposisi Surat";
+        //$this->form_validation->set_rules('verifikasi_surat', 'Verifikasi Surat', 'required');
         $this->form_validation->set_rules('catatan', 'Catatan', 'required');
         $this->form_validation->set_rules('nik_pj[]', 'NIK', '');
         if ($this->form_validation->run() == false) {
@@ -135,13 +131,19 @@ class SuratMasuk extends CI_Controller
     public function detailsuratmasuk($id){
             $data['judul'] = "Detail Surat";
             $data['pegawai'] = $this->PegawaiModel->getAllPegawai();
-            $data['suratmasuk'] = $this->SuratMasukModel->getVerifikasiSuratById($id);
+            $suratmasuk=$this->db->get_where('surat',['kode_surat'=>$id])->row_array();
             $data['verifikasisurat'] = $this->VerifikasiSuratModel->getAllVerifikasi($id);
+            if($suratmasuk["status"]=="Disposisi"){
+                $data['suratmasuk'] = $this->SuratMasukModel->getVerifikasiSuratByKdSurat($id);
+            }else{
+                $data['suratmasuk'] = $this->SuratMasukModel->getVerifikasiSuratById($id);
+            }
             $this->load->view('admin/_partials/header');
             $this->load->view('admin/_partials/navbar');
             $this->load->view('admin/detailsuratmasuk', $data);
             $this->load->view('admin/_partials/footer');
     }
+    
     public function cetakdisposisi($id){
         $data['sifat'] = $this->SifatModel->getAllSifat();
         $data['cetakdisposisi']=$this->DisposisiSuratModel->cetakDisposisi($id);

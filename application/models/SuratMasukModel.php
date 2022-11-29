@@ -1,6 +1,10 @@
 <?php
 class SuratMasukModel extends CI_model
 {
+     public function getAllSurat()
+    {
+        return $this->db->get('surat')->result_array();
+    }
     public function getSuratMasuk()
     {
         return $this->db->select("surat.*, verifikasi_surat.*")
@@ -12,6 +16,12 @@ class SuratMasukModel extends CI_model
         return $this->db->select("surat.*, verifikasi_surat.*")
         ->join("verifikasi_surat","surat.kode_surat=verifikasi_surat.kode_surat")
         ->get_where("surat",["verifikasi_surat.nik_penerima"=>$this->session->userdata('nik'), "surat.kode_surat" => $id])->row_array();
+    }
+     public function getVerifikasiSuratByKdSurat($id)
+    {
+        return $this->db->select("surat.*, verifikasi_surat.*")
+        ->join("verifikasi_surat","surat.kode_surat=verifikasi_surat.kode_surat")
+        ->get_where("surat",["surat.kode_surat" => $id])->row_array();
     }
     public function getDisposisiSuratById($id)
     {

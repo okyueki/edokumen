@@ -94,7 +94,7 @@
                                         </li>
                                         </ol>
                                         <?php
-                                                            if($this->session->userdata('nama_jabatan')=="Kabag"){
+                                                            if($this->session->userdata('nama_jabatan')=="Kabag" || $this->session->userdata('nama_jabatan')=="Kabid"){
                                                          ?>
                                         <ul class="list-group">
                                         <li class="list-group-item">

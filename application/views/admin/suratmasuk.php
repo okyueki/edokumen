@@ -34,7 +34,12 @@
                             $i = 1;
                             foreach ($suratmasuk as $sm) :
                                 $pengirim=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $sm['nik_pengirim']])->row_array();
-                              
+                                $disposisi_surat=$this->db->get_where('disposisi', ['kode_surat' =>  $sm['kode_surat'], 'nik_disposisi_ke'=> $this->session->userdata('nik')])->row_array();
+                                $verifikasi_surat=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $sm['kode_surat'], 'nik_penerima'=> $this->session->userdata('nik')])->row_array();
+                                //print_r($disposisi_surat);
+                                //print_r($verifikasi_surat);
+                                if(!empty($disposisi_surat)){
+                                  echo "1";
                          ?>
                       <tr>
                         <td><?php echo $i; ?></td>
@@ -55,34 +60,61 @@
                         <td><?php echo $sm['tanggal_surat']; ?></td>
                         <td>
                           <?php
-                            if($sm['status'] == "Disposisi"){
-                              if($sm['status_disposisi']=="Sudah"){
+                            if($sm['status']=="Disposisi" && $disposisi_surat['status_disposisi']=="Sudah"){
+                              //echo "1";
                           ?>
-                           <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
+                           <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
                           <?php
                             }else{
+                               //echo "2";
                           ?>
-                            <a href="<?php echo base_url();?>suratmasuk/disposisisurat/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
+                            <a href="<?php echo base_url();?>suratmasuk/disposisisurat/<?php echo $sm['kode_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                           <?php
                             }
                           ?>
+                        </td>
+                      </tr>
+                      <?php
+                      }elseif(!empty($verifikasi_surat)){
+                       echo "2";
+                        ?>
+                         <tr>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $sm['nomor_surat']; ?></td>
+                        <td><?php echo $sm['judul_surat']; ?></td>
+                        <td><?php echo $pengirim['nama']; ?></td>
+                        <td> <ul>
                           <?php
-                         
-                          }else{
-                            if ($sm['status_verifikasi']=="Distetujui"){
+                              $verifikasi=$this->db->get_where('verifikasi_surat', ['kode_surat' =>  $sm['kode_surat']])->result_array();
+                              foreach ($verifikasi as $v) :
+                                $penerima=$this->db2->select('nama')->get_where('pegawai', ['nik' =>  $v['nik_penerima']])->row_array();
+                               echo "<li>".$penerima['nama']."  <span class='badge border border-success text-success'>".$v['status_verifikasi']."</span></li>";
+                              endforeach;
+                          
+                         ?>
+                         </ul> </td>
+                         <td><span class="badge border border-success text-success"> <?php echo $sm['status'];?></span></td>
+                        <td><?php echo $sm['tanggal_surat']; ?></td>
+                        <td>
+                          <?php
+                          if ($verifikasi_surat['status_verifikasi']=="Disetujui"){
+                            //echo "Verifikasi 1";
+                            
                           ?>
-                          <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
+                          <a href="<?php echo base_url();?>suratmasuk/detailsuratmasuk/<?php echo $sm['kode_surat'];?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="more-horizontal"></i></a>
                           <?php
                             }else{
+                              // echo "Verifikasi 2";
                           ?>
                           <a href="<?php echo base_url();?>suratmasuk/verifikasisurat/<?php echo $sm['kode_surat']?>" class="btn btn-primary me-2"><i class="link-icon" data-feather="edit"></i></a>
                             <?php
                             }
-                            }
+                            
                             ?>
                         </td>
                       </tr>
                       <?php
+                      }
                         $i++;
                         endforeach;
                       ?>
