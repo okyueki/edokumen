@@ -158,9 +158,9 @@
                                 <td></td>
                                 <td align="center">
                                     <?php
-                                         $verifikator=$this->db->select('qrcode')->get_where('verifikasi_surat', ['kode_surat' =>  $cuti['kode_surat']])->row_array();
+                                         $verifikator=$this->db->select('qrcode_verifikasi_surat')->get_where('verifikasi_surat', ['kode_surat' =>  $cuti['kode_surat']])->row_array();
                                     ?>
-                                    <img style="width:128px; height:auto; border-radius:0;" src="<?php echo base_url();?>assets/qrcode/<?php echo $verifikator['qrcode'];?>" alt="">
+                                    <img style="width:128px; height:auto; border-radius:0;" src="<?php echo base_url();?>assets/qrcode/<?php echo $verifikator['qrcode_verifikasi_surat'];?>" alt="">
                                 </td>
                                  <td align="center"><img style="width:128px; height:auto; border-radius:0;" src="<?php echo base_url();?>assets/qrcode/<?php echo $cuti['qrcode'];?>" alt=""></td>
                             </tr>

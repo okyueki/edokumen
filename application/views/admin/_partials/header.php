@@ -73,6 +73,12 @@
               <span class="link-title">eCuti</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url();?>datacutipegawai" class="nav-link">
+              <i class="link-icon" data-feather="file-text"></i>
+              <span class="link-title">Data Cuti Pegawai</span>
+            </a>
+          </li>
           <li class="nav-item nav-category">Dokumen</li>
            <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#dokumen" role="button" aria-expanded="false" aria-controls="emails">

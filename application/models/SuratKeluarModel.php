@@ -3,7 +3,7 @@ class SuratKeluarModel extends CI_model
 {
     public function getAllSuratKeluar()
     {
-        return $this->db->not_like('kode_surat','SF')
+        return $this->db->not_like('kode_surat','SF')->order_by('id_surat', 'DESC')
         ->get_where('surat', ['nik_pengirim' =>  $this->session->userdata('nik')])->result_array();
     }
     public function tambahSuratKeluar()

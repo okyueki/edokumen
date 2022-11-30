@@ -114,6 +114,10 @@
                                                         <small class="form-text text-danger"><?php echo form_error('catatan');?></small>
                                                         
                                                     </div>
+                                                    <?php
+                                                    $kode_surat=substr($suratmasuk['kode_surat'],0,2);
+                                                     if($kode_surat=="SK"){
+                                                    ?>
                                                      <div class="mb-3">
                                                         <?php
                                                             if($this->session->userdata('nama_jabatan')!="Direktur"){
@@ -151,6 +155,9 @@
                                                             }
                         ?>
                     </div>
+                    <?php
+                                                     }
+                    ?>
                                                 <button type="submit" class="btn btn-primary me-2">Submit</button>
                                             <?php echo form_close(); ?>
                                             </div>
@@ -160,7 +167,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                     <?php
-                                        $kode_surat=substr($suratmasuk['kode_surat'],0,2);
+                                        
                                         if($kode_surat=="SK"){
                                     ?>
                                     <iframe src="<?php echo base_url();?>suratkeluar/cetaksurat/<?php echo $suratmasuk['kode_surat']?>" title="" width="100%" height="400px"></iframe>

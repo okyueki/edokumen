@@ -73,11 +73,16 @@ class SuratMasuk extends CI_Controller
             $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
             $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
             $this->VerifikasiSuratModel->UpdateVerifikasiSurat($id,$image_name);
-            if($this->session->userdata('nama_jabatan')!="Direktur"){
-                $this->VerifikasiSuratModel->tambahVerifikasiSurat($id);
+            $kode_surat=substr($id,0,2);
+            if($kode_surat=="SK"){
+                if($this->session->userdata('nama_jabatan')!="Direktur"){
+                    $this->VerifikasiSuratModel->tambahVerifikasiSurat($id);
+                }else{
+                    $this->SuratMasukModel->UpdateStatusSuratDisposisi($id);
+                    $this->DisposisiSuratModel->tambahDisposisiSurat($id,$image_name);
+                }
             }else{
-                $this->SuratMasukModel->UpdateStatusSuratDisposisi($id);
-                $this->DisposisiSuratModel->tambahDisposisiSurat($id,$image_name);
+                $this->SuratMasukModel->UpdateStatusSelesai($id);
             }
             }elseif($this->input->post("verifikasi_surat")=="Ditolak"){
                 $this->VerifikasiSuratModel->UpdateVerifikasiSuratDitolak($id);

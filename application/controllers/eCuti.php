@@ -18,7 +18,7 @@ class eCuti extends CI_Controller
         $this->load->model('CutiModel');
         $this->load->model('PegawaiModel');
         $this->load->model('JenisCutiModel');
-        $this->load->model('SuratModel');
+        //$this->load->model('SuratModel');
         $this->load->model('VerifikasiSuratModel');
     }
 
@@ -53,7 +53,7 @@ class eCuti extends CI_Controller
             $this->load->view('admin/_partials/footer');
         } else {
             $this->CutiModel->tambahCuti();
-            $this->SuratModel->tambahSurat($kategori='cuti');
+            //$this->SuratModel->tambahSurat($kategori='cuti');
             $this->session->set_flashdata('sukses', 'Data Berhasil Ditambahkan');
             redirect('ecuti');
         }
@@ -81,16 +81,15 @@ class eCuti extends CI_Controller
         } else {
             //echo "Berhasil";
             $this->CutiModel->ubahCuti($id);
-            $this->SuratModel->ubahSurat($id, $kategori="cuti");
+            //$this->SuratModel->ubahSurat($id, $kategori="cuti");
             $this->session->set_flashdata('sukses', 'Data Berhasil Diubah');
             redirect('ecuti');
         }
     }
-    public function hapuscuti($id,$kategori='cuti')
-    {
+    public function hapuscuti($id){
         $this->VerifikasiSuratModel->hapusVerifikasiSurat($id);
         $this->CutiModel->hapusCuti($id);
-        $this->SuratModel->hapusSurat($id,$kategori);
+        //$this->SuratModel->hapusSurat($id,$kategori);
         $this->session->set_flashdata('sukses', 'Data Berhasil Dihapus');
         redirect('ecuti');
     }

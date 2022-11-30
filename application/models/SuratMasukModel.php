@@ -3,12 +3,12 @@ class SuratMasukModel extends CI_model
 {
      public function getAllSurat()
     {
-        return $this->db->get('surat')->result_array();
+        return $this->db->order_by('id_surat', 'DESC')->get('surat')->result_array();
     }
     public function getSuratMasuk()
     {
         return $this->db->select("surat.*, verifikasi_surat.*")
-        ->join("verifikasi_surat","surat.kode_surat=verifikasi_surat.kode_surat")
+        ->join("verifikasi_surat","surat.kode_surat=verifikasi_surat.kode_surat")->order_by('surat.id_surat', 'DESC')
         ->get_where("surat",["verifikasi_surat.nik_penerima"=>$this->session->userdata('nik')])->result_array();
     }
     public function getVerifikasiSuratById($id)
@@ -33,6 +33,14 @@ class SuratMasukModel extends CI_model
     {
         $data = [
             "status" => "Disposisi"
+        ];
+        $this->db->where('kode_surat', $id);
+        $this->db->update('surat', $data);
+    }
+     public function UpdateStatusSelesai($id)
+    {
+        $data = [
+            "status" => "Selesai"
         ];
         $this->db->where('kode_surat', $id);
         $this->db->update('surat', $data);
